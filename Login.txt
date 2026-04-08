@@ -1,0 +1,15 @@
+
+
+
+const accounts = [
+  {
+    name: 'Demo Traveler',
+    email: 'demo@komrongtrip.com',
+    password: 'demo1234',
+  },
+  {
+    name: 'Guest Planner',
+    email: 'guest@komrongtrip.com',
+    password: 'guest1234',
+  },
+]

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
+  <title id="title">Mountain lake landscape</title>
+  <desc id="desc">A stylized travel illustration with mountains, lake, and sunrise.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bfe7ff" />
+      <stop offset="55%" stop-color="#7cc4ff" />
+      <stop offset="100%" stop-color="#dff4ff" />
+    </linearGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7dc0f0" />
+      <stop offset="100%" stop-color="#2e76a8" />
+    </linearGradient>
+  </defs>
+  <rect width="960" height="640" fill="url(#sky)" />
+  <circle cx="230" cy="150" r="72" fill="#fff2a8" />
+  <path d="M0 430L200 200l150 120 110-140 180 170 120-92L960 430v210H0Z" fill="#3d5d7c" />
+  <path d="M120 430L290 230l120 98 70-82 86 94 115-86 189 176v130H120Z" fill="#597b9a" />
+  <path d="M300 274l100 80 45-52 50 63 55-48 65 72 40-28 60 69 0 200H210V430Z" fill="#f7fbff" opacity="0.95" />
+  <path d="M0 492C145 462 240 466 347 486s192 54 297 36 170-28 316 2v116H0Z" fill="url(#lake)" />
+  <path d="M0 560c126-14 221-7 311 18s207 36 301 17 173-20 348 1v44H0Z" fill="#1f5678" opacity="0.7" />
+  <path d="M610 510c42 16 80 27 110 35 22 6 44-7 50-29 7-22-5-46-27-55-42-17-83-19-133-9-29 6-33 43 0 58Z" fill="#2a7a76" />
+  <path d="M210 510c-24 12-54 24-90 34-20 6-40-4-47-23-8-20 1-43 20-53 36-19 69-24 117-18 28 3 36 44 0 60Z" fill="#2a7a76" />
+</svg>

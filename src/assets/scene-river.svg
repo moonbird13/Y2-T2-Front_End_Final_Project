@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
+  <title id="title">River valley at sunrise</title>
+  <desc id="desc">A stylized travel illustration with river curves, hills, and a bright sunrise.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffd8c1" />
+      <stop offset="55%" stop-color="#ffb36d" />
+      <stop offset="100%" stop-color="#fff4e0" />
+    </linearGradient>
+    <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7bd3ff" />
+      <stop offset="100%" stop-color="#1c7cb3" />
+    </linearGradient>
+  </defs>
+  <rect width="960" height="640" fill="url(#sky)" />
+  <circle cx="790" cy="160" r="82" fill="#fff2a8" opacity="0.95" />
+  <path d="M0 388C122 338 224 330 334 352s188 60 287 41 171-58 339-31v278H0Z" fill="#8e6a49" />
+  <path d="M0 430C141 390 260 385 354 410s192 72 292 58 184-49 314-27v199H0Z" fill="#b8895c" />
+  <path d="M108 640c28-76 74-118 129-156 89-60 166-85 244-85 89 0 166 28 240 78 48 33 96 79 145 163H108Z" fill="url(#river)" />
+  <path d="M230 505c54-22 102-31 147-32 63-2 123 15 181 49 21 12 42 27 61 44H176c16-26 34-45 54-61Z" fill="#e6f6ff" opacity="0.42" />
+  <path d="M0 288L146 178l92 86 87-82 97 92 94-72 88 76 92-82 64 64V640H0Z" fill="#6b7f52" opacity="0.95" />
+  <path d="M152 250l80-78 74 70 83-65 72 67 74-55 84 61 83-72 75 74v58H152Z" fill="#dfe8c7" opacity="0.85" />
+</svg>

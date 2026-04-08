@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
+  <title id="title">Temple silhouette in warm light</title>
+  <desc id="desc">A stylized travel illustration with a temple roofline, trees, and a glowing sky.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffe8c7" />
+      <stop offset="45%" stop-color="#ffb76f" />
+      <stop offset="100%" stop-color="#f4d8b8" />
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b88c5a" />
+      <stop offset="100%" stop-color="#7e5a36" />
+    </linearGradient>
+  </defs>
+  <rect width="960" height="640" fill="url(#sky)" />
+  <circle cx="730" cy="140" r="74" fill="#fff2bc" opacity="0.95" />
+  <path d="M0 468C130 430 245 430 364 458s208 52 322 30 167-23 274 2v150H0Z" fill="url(#ground)" />
+  <path d="M106 414h748l-24 28H130Z" fill="#5c4329" />
+  <path d="M186 414l98-94 94 94 98-94 94 94 94-94 94 94h-572Z" fill="#4f3822" />
+  <path d="M264 320l20-30 74 74 75-74 74 74 75-74 74 74 21-30H264Z" fill="#7b5631" />
+  <path d="M372 392v118h76V392h-76Zm0 0l38-36 38 36" fill="#2f241b" />
+  <path d="M516 392v118h76V392h-76Zm0 0l38-36 38 36" fill="#2f241b" />
+  <path d="M660 392v118h76V392h-76Zm0 0l38-36 38 36" fill="#2f241b" />
+  <path d="M72 480c36-70 70-100 98-118 18-12 43-8 56 10 13 18 10 42-6 55-31 24-64 35-148 53Z" fill="#376a45" />
+  <path d="M800 472c22-57 47-86 72-103 16-11 38-8 50 7 13 16 13 39 1 54-25 30-56 44-123 42Z" fill="#376a45" />
+  <rect x="0" y="0" width="960" height="640" fill="#fff" opacity="0.08" />
+</svg>
