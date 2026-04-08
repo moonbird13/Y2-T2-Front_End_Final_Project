@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import AuthModal from './components/AuthModal'
 import FavouriteTab from './components/FavouriteTab'
 import Header from './components/Header'
 import HeroCarousel from './components/HeroCarousel'
+import HistoryTab from './components/HistoryTab'
 import QuizPage from './components/QuizPage'
 import QuizRequiedPopup from './components/QuizRequiedPopup'
 import RecommendedPage from './components/RecommendedPage'
@@ -11,6 +12,32 @@ import Sidebar from './components/Sidebar'
 import StartQuizButton from './components/StartQuizButton'
 import { carouselSlides } from './data/carouselSlides'
 import { resolveRecommendedProvince } from './data/quizQuestions'
+
+const STORAGE_KEYS = {
+  user: 'komrongtrip.user',
+  favorites: 'komrongtrip.favorites',
+  history: 'komrongtrip.history',
+}
+
+const favoritesKeyFor = (email) => `komrongtrip.favorites_${email}`
+const historyKeyFor = (email) => `komrongtrip.history_${email}`
+
+const getStorage = (key, defaultValue) => {
+  try {
+    const stored = localStorage.getItem(key)
+    return stored ? JSON.parse(stored) : defaultValue
+  } catch (error) {
+    return defaultValue
+  }
+}
+
+const setStorage = (key, value) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch (error) {
+    // Ignore storage errors on private mode or quota issues.
+  }
+}
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -22,21 +49,49 @@ function App() {
   const [showRecommendedPage, setShowRecommendedPage] = useState(false)
   const [quizAnswers, setQuizAnswers] = useState(null)
   const [favorites, setFavorites] = useState([])
+  const [recommendationHistory, setRecommendationHistory] = useState([])
   const [showFavouriteTab, setShowFavouriteTab] = useState(false)
+  const [showHistoryTab, setShowHistoryTab] = useState(false)
+
+  useEffect(() => {
+    const storedUser = getStorage(STORAGE_KEYS.user, null)
+    if (storedUser) {
+      setUser(storedUser)
+      setFavorites(getStorage(favoritesKeyFor(storedUser.email), []))
+      setRecommendationHistory(getStorage(historyKeyFor(storedUser.email), []))
+    } else {
+      setFavorites(getStorage(STORAGE_KEYS.favorites, []))
+      setRecommendationHistory(getStorage(STORAGE_KEYS.history, []))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      setStorage(STORAGE_KEYS.user, user)
+      setStorage(favoritesKeyFor(user.email), favorites)
+      setStorage(historyKeyFor(user.email), recommendationHistory)
+    } else {
+      localStorage.removeItem(STORAGE_KEYS.user)
+      setStorage(STORAGE_KEYS.favorites, favorites)
+      setStorage(STORAGE_KEYS.history, recommendationHistory)
+    }
+  }, [favorites, recommendationHistory, user])
+
+  useEffect(() => {
+    if (user) {
+      setFavorites(getStorage(favoritesKeyFor(user.email), []))
+      setRecommendationHistory(getStorage(historyKeyFor(user.email), []))
+    }
+  }, [user?.email])
 
   const hasRecommendationResult = Boolean(quizAnswers)
-  const currentView = showFavouriteTab ? 'favourite' : showRecommendedPage ? 'recommendation' : 'home'
+  const currentView = showHistoryTab ? 'history' : showFavouriteTab ? 'favourite' : showRecommendedPage ? 'recommendation' : 'home'
 
   const handleAuthenticate = (authUser) => {
     setUser(authUser)
   }
 
   const handleAddFavorite = (item) => {
-    if (!user) {
-      setAuthOpen(true)
-      return
-    }
-
     setFavorites(prev => {
       const exists = prev.some(fav => fav.id === item.id && fav.category === item.category)
       if (exists) {
@@ -55,13 +110,31 @@ function App() {
     setShowRecommendedPage(false)
   }
 
+  const handleOpenFavorites = () => {
+    setShowFavouriteTab(true)
+    setShowRecommendedPage(false)
+    setShowHistoryTab(false)
+  }
+
   const handleCloseFavouriteTab = () => {
     setShowFavouriteTab(false)
+  }
+
+  const handleOpenHistory = () => {
+    setShowHistoryTab(true)
+    setShowFavouriteTab(false)
+    setShowRecommendedPage(false)
+  }
+
+  const handleCloseHistoryTab = () => {
+    setShowHistoryTab(false)
   }
 
   const handleLogout = () => {
     setUser(null)
     setAuthOpen(false)
+    setFavorites(getStorage(STORAGE_KEYS.favorites, []))
+    setRecommendationHistory(getStorage(STORAGE_KEYS.history, []))
   }
 
   const handleStartQuiz = () => {
@@ -95,18 +168,21 @@ function App() {
     setShowQuizPage(false)
     setShowRecommendedPage(true)
     setQuizAnswers(completeAnswers)
+    setRecommendationHistory((prev) => [...prev, { ...completeAnswers, timestamp: Date.now() }])
     console.log('Quiz completed with answers:', completeAnswers)
   }
 
   const handleGoHomeFromMenu = () => {
     setShowRecommendedPage(false)
     setShowFavouriteTab(false)
+    setShowHistoryTab(false)
   }
 
   const handleGoRecommendationFromMenu = () => {
     if (hasRecommendationResult) {
       setShowRecommendedPage(true)
       setShowFavouriteTab(false)
+      setShowHistoryTab(false)
     }
   }
 
@@ -116,12 +192,19 @@ function App() {
         onMenuClick={() => setSidebarOpen(true)}
         onLoginClick={() => setAuthOpen(true)}
         onLogoutClick={handleLogout}
+        onShowFavorites={handleOpenFavorites}
+        onShowHistory={handleOpenHistory}
         isAuthenticated={Boolean(user)}
         user={user}
       />
 
       <main className="page">
-        {showFavouriteTab ? (
+        {showHistoryTab ? (
+          <HistoryTab
+            history={recommendationHistory}
+            onClose={handleCloseHistoryTab}
+          />
+        ) : showFavouriteTab ? (
           <FavouriteTab
             favorites={favorites}
             onRemoveFavorite={handleRemoveFavorite}

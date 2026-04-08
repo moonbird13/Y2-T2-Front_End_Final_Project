@@ -19,6 +19,12 @@ function QuizPage({ province, onClose, onComplete }) {
   const nextId = currentQuestion?.nextQuestion
   const hasNextQuestion = nextId ? quizQuestions.some((question) => question.id === nextId) : false
 
+  const answersToRender = currentQuestion?.id === 2 && selectedAnswers[1]
+    ? selectedAnswers[1] === 'solo'
+      ? currentQuestion.answersSolo
+      : currentQuestion.answersGroup
+    : currentQuestion?.answers
+
   // Supports selected state checks for both single-select and multi-select questions.
   const isSelected = (questionId, answerId) => {
     const value = selectedAnswers[questionId]
@@ -137,36 +143,17 @@ function QuizPage({ province, onClose, onComplete }) {
         {warningMessage && <p className="quiz-page-main__warning">{warningMessage}</p>}
 
         <div className="quiz-page-main__answers">
-          {/* Q2 also swaps answer sets based on the Q1 selection. */}
-          {currentQuestion.id === 2 && selectedAnswers[1] ? (
-            <>
-              {(selectedAnswers[1] === 'solo' ? currentQuestion.answersSolo : currentQuestion.answersGroup).map((answer) => (
-                <button
-                  key={answer.id}
-                  type="button"
-                  className={`quiz-page-main__answer ${isSelected(currentQuestion.id, answer.id) ? 'quiz-page-main__answer--selected' : ''}`}
-                  onClick={() => handleAnswerSelect(answer.id)}
-                >
-                  {answer.image ? <img src={answer.image} alt={answer.label} className="quiz-page-main__answer-image" /> : null}
-                  <div className="quiz-page-main__answer-label">{answer.label}</div>
-                </button>
-              ))}
-            </>
-          ) : (
-            <>
-              {currentQuestion.answers?.map((answer) => (
-                <button
-                  key={answer.id}
-                  type="button"
-                  className={`quiz-page-main__answer ${isSelected(currentQuestion.id, answer.id) ? 'quiz-page-main__answer--selected' : ''}`}
-                  onClick={() => handleAnswerSelect(answer.id)}
-                >
-                  {answer.image ? <img src={answer.image} alt={answer.label} className="quiz-page-main__answer-image" /> : null}
-                  <div className="quiz-page-main__answer-label">{answer.label}</div>
-                </button>
-              ))}
-            </>
-          )}
+          {answersToRender?.map((answer) => (
+            <button
+              key={answer.id}
+              type="button"
+              className={`quiz-page-main__answer ${isSelected(currentQuestion.id, answer.id) ? 'quiz-page-main__answer--selected' : ''}`}
+              onClick={() => handleAnswerSelect(answer.id)}
+            >
+              {answer.image ? <img src={answer.image} alt={answer.label} className="quiz-page-main__answer-image" /> : null}
+              <div className="quiz-page-main__answer-label">{answer.label}</div>
+            </button>
+          ))}
         </div>
 
         <div className="quiz-page-main__navigation">

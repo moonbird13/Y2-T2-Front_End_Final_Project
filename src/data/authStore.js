@@ -1,4 +1,6 @@
-const accounts = [
+const AUTH_STORAGE_KEY = 'komrongtrip.accounts'
+
+const defaultAccounts = [
   {
     name: 'Demo Traveler',
     email: 'demo@komrongtrip.com',
@@ -10,6 +12,29 @@ const accounts = [
     password: 'guest1234',
   },
 ]
+
+const getStoredAccounts = () => {
+  try {
+    const stored = localStorage.getItem(AUTH_STORAGE_KEY)
+    if (!stored) {
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(defaultAccounts))
+      return [...defaultAccounts]
+    }
+    return JSON.parse(stored)
+  } catch (error) {
+    return [...defaultAccounts]
+  }
+}
+
+const saveAccounts = (accounts) => {
+  try {
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(accounts))
+  } catch (error) {
+    // ignore storage failures
+  }
+}
+
+let accounts = getStoredAccounts()
 
 const normalizeEmail = (email) => email.trim().toLowerCase()
 
@@ -58,6 +83,7 @@ export function signupAccount({ name, email, password }) {
   }
 
   accounts.push(newAccount)
+  saveAccounts(accounts)
 
   return {
     ok: true,

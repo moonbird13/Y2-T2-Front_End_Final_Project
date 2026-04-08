@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-function AccountPopup({ user, onLogout, onClose }) {
+function AccountPopup({ user, onLogout, onShowFavorites, onShowHistory, onClose }) {
   const popupRef = useRef(null)
 
   useEffect(() => {
@@ -22,6 +22,12 @@ function AccountPopup({ user, onLogout, onClose }) {
         <div className="account-popup__name">{user.name}</div>
         <div className="account-popup__email">{user.email}</div>
       </div>
+      <button type="button" className="button button--ghost account-popup__action" onClick={onShowFavorites}>
+        View favourites
+      </button>
+      <button type="button" className="button button--ghost account-popup__action" onClick={onShowHistory}>
+        View history
+      </button>
       <button type="button" className="button button--ghost account-popup__logout" onClick={onLogout}>
         Logout
       </button>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import AccountPopup from './AccountPopup'
 
-function Header({ onMenuClick, onLoginClick, onLogoutClick, isAuthenticated, user }) {
+function Header({ onMenuClick, onLoginClick, onLogoutClick, onShowFavorites, onShowHistory, isAuthenticated, user }) {
   const [popupOpen, setPopupOpen] = useState(false)
   return (
     <header className="topbar">
@@ -41,6 +41,14 @@ function Header({ onMenuClick, onLoginClick, onLogoutClick, isAuthenticated, use
                 user={user}
                 onLogout={() => {
                   onLogoutClick()
+                  setPopupOpen(false)
+                }}
+                onShowFavorites={() => {
+                  onShowFavorites()
+                  setPopupOpen(false)
+                }}
+                onShowHistory={() => {
+                  onShowHistory()
                   setPopupOpen(false)
                 }}
                 onClose={() => setPopupOpen(false)}
