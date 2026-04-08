@@ -688,12 +688,25 @@
   max-width: 900px;
 }
 
+.quiz-page-main__container--shake {
+  animation: quiz-rattle 0.36s ease;
+}
+
 .quiz-page-main__question {
   color: #ffffff;
   font-size: 2rem;
   text-align: center;
   margin: 0;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.quiz-page-main__warning {
+  margin: -24px 0 0;
+  color: #ff5e5e;
+  font-size: 1.14rem;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.28);
 }
 
 .quiz-page-main__answers {
@@ -777,4 +790,25 @@
   font-size: 1.1rem;
   min-width: 80px;
   text-align: center;
+}
+
+@keyframes quiz-rattle {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(7px);
+  }
+  60% {
+    transform: translateX(-6px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }

@@ -1,19 +1,28 @@
-import { useRef } from 'react'
+import { useState } from 'react'
 
 function QuizRequiedPopup({ open, onClose, onContinue }) {
+  const [formData, setFormData] = useState({
+    province: '',
+    days: '',
+    budget: ''
+  })
+
   if (!open) {
     return null
   }
 
-  const formRef = useRef(null)
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
     
-    const formData = new FormData(formRef.current)
-    const province = formData.get('province')
-    const days = formData.get('days')
-    const budget = formData.get('budget')
+    const { province, days, budget } = formData
 
     if (!province || !days || !budget) {
       alert('Please fill in all fields')
@@ -28,6 +37,7 @@ function QuizRequiedPopup({ open, onClose, onContinue }) {
   }
 
   const provinces = [
+    'Recommend me',
     'Banteay Meanchey',
     'Battambang',
     'Kampong Cham',
@@ -42,7 +52,6 @@ function QuizRequiedPopup({ open, onClose, onContinue }) {
     'Mondulkiri',
     'Oddar Meanchey',
     'Pailin',
-    'Phnom Penh',
     'Preah Vihear',
     'Prey Veng',
     'Pursat',
@@ -66,10 +75,10 @@ function QuizRequiedPopup({ open, onClose, onContinue }) {
           </button>
         </div>
 
-        <form ref={formRef} className="quiz-page__form" onSubmit={handleSubmit}>
+        <form className="quiz-page__form" onSubmit={handleSubmit}>
           <div className="quiz-page__field">
             <label htmlFor="province">1. What province are you traveling to?</label>
-            <select id="province" name="province" required>
+            <select id="province" name="province" value={formData.province} onChange={handleChange} required>
               <option value="">Select a province</option>
               {provinces.map((province) => (
                 <option key={province} value={province}>
@@ -81,7 +90,7 @@ function QuizRequiedPopup({ open, onClose, onContinue }) {
 
           <div className="quiz-page__field">
             <label htmlFor="days">2. How many days are you traveling?</label>
-            <input id="days" name="days" type="number" min="1" step="1" placeholder="Enter number of days" required />
+            <input id="days" name="days" type="number" min="1" step="1" placeholder="Enter number of days" value={formData.days} onChange={handleChange} required />
           </div>
 
           <div className="quiz-page__field">
@@ -94,6 +103,8 @@ function QuizRequiedPopup({ open, onClose, onContinue }) {
               max="10000"
               step="1"
               placeholder="$20 - $10000"
+              value={formData.budget}
+              onChange={handleChange}
               required
             />
           </div>
