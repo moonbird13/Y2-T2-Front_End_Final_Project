@@ -179,13 +179,46 @@ const getPurposeBoost = (item, purposes) => {
   return Math.min(boost, 0.22)
 }
 
+const getPriceBand = (item) => {
+  const averagePrice = (item.priceRange.min + item.priceRange.max) / 2
+
+  if (averagePrice <= 15) {
+    return 'cheap'
+  }
+
+  if (averagePrice <= 60) {
+    return 'mid'
+  }
+
+  return 'high'
+}
+
+const getPreferredBands = (budgetLimit, preferPremium) => {
+  if (budgetLimit <= 20) {
+    return ['cheap']
+  }
+
+  if (budgetLimit <= 70) {
+    return preferPremium ? ['mid', 'cheap'] : ['mid', 'cheap']
+  }
+
+  return preferPremium ? ['high', 'mid'] : ['mid', 'high']
+}
+
+const buildBandRankMap = (preferredBands) => {
+  return preferredBands.reduce((accumulator, band, index) => {
+    accumulator[band] = index
+    return accumulator
+  }, {})
+}
+
 const getPriceScore = (item, budgetLimit, preferPremium) => {
   const averagePrice = (item.priceRange.min + item.priceRange.max) / 2
-  const ratio = budgetLimit > 0 ? averagePrice / budgetLimit : 0
-
-  const target = preferPremium ? 0.92 : 0.62
-  const raw = 1 - Math.abs(ratio - target)
-  return clamp01(raw)
+  const distance = Math.abs(averagePrice - budgetLimit)
+  const closenessScore = 1 - distance / Math.max(budgetLimit, 1)
+  const preferredBands = getPreferredBands(budgetLimit, preferPremium)
+  const bandBonus = preferredBands.includes(getPriceBand(item)) ? 0.18 : 0
+  return clamp01(closenessScore + bandBonus)
 }
 
 const formatRating = (value) => Number(value).toFixed(1)
@@ -217,6 +250,11 @@ function RecommendationCard({ item, transport, category, onAddFavorite, isFavori
           <p>Match score: {Math.round(item.matchScore * 100)}%</p>
           <p>Rating: {formatRating(item.rating)} / 5</p>
           <p>Direction: {item.direction}</p>
+          {item.mapUrl && (
+            <p>
+              Location: <a href={item.mapUrl} target="_blank" rel="noreferrer">Open map</a>
+            </p>
+          )}
           {showTravel && <p>Estimated {transport}: {getTravelMinutes(item, transport)} mins from hotel</p>}
           <p>Phone: {item.phone}</p>
           <p>Telegram: {item.telegram}</p>
@@ -290,6 +328,7 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
   const pickTopThree = ({ provinceItems, allItems, budgetLimit, category }) => {
     const transportFilteredProvince = category === 'hotel' ? provinceItems : provinceItems.filter((item) => isWithinTransportWindow(item, selectedTransport))
     const transportFilteredAll = category === 'hotel' ? allItems : allItems.filter((item) => isWithinTransportWindow(item, selectedTransport))
+    const isFoodPriority = priorities.includes('food')
 
     const sortedProvince = scoreAndSort(transportFilteredProvince, category, budgetLimit)
     const sortedAll = scoreAndSort(transportFilteredAll, category, budgetLimit)
@@ -303,7 +342,31 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
       .filter((item) => item.priceRange.min <= budgetLimit || item.priceRange.min <= budgetLimit * 1.15)
       .slice(0, 6)
 
-    const merged = dedupeById([...strictProvince, ...strictGlobal, ...strictIgnoreBudget, ...softFill])
+    let userTierPriority = []
+    if (category === 'restaurant' && isFoodPriority) {
+      const preferredBands = getPreferredBands(budgetLimit, true)
+      const bandRankMap = buildBandRankMap(preferredBands)
+      const restaurantCap = Math.max(budgetLimit * 1.2, budgetLimit + 5)
+
+      userTierPriority = sortedProvince
+        .filter((item) => item.source === 'user-tier')
+        .filter((item) => item.priceRange.min <= restaurantCap)
+        .map((item) => ({
+          ...item,
+          bandRank: bandRankMap[item.tier] ?? 99,
+          distanceFromBudget: Math.abs(((item.priceRange.min + item.priceRange.max) / 2) - budgetLimit),
+        }))
+        .sort((a, b) => a.bandRank - b.bandRank || a.distanceFromBudget - b.distanceFromBudget)
+        .slice(0, 3)
+    }
+
+    const merged = dedupeById([
+      ...userTierPriority,
+      ...strictProvince,
+      ...strictGlobal,
+      ...(category === 'restaurant' ? [] : strictIgnoreBudget),
+      ...softFill,
+    ])
     return merged.slice(0, 3)
   }
 

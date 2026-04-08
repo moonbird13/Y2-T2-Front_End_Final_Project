@@ -1,5 +1,8 @@
 import { getRecommendedProvince } from './provinceRecommendation'
 
+import Solo from '../assets/Quiz/Solo.webp'
+import friends from '../assets/Quiz/Friend.avif'
+
 // Quiz Questions with Conditional Logic
 // Base IDs:
 // 1 - Who are you travelling with?
@@ -14,8 +17,8 @@ import { getRecommendedProvince } from './provinceRecommendation'
 
 // Placeholder images - replace with actual image imports as needed
 const placeholderImages = {
-  solo: 'https://via.placeholder.com/150?text=Solo',
-  friends: 'https://via.placeholder.com/150?text=Friends',
+  solo: Solo,
+  friends: friends,
   family: 'https://via.placeholder.com/150?text=Family',
   partner: 'https://via.placeholder.com/150?text=Partner',
   disability: 'https://via.placeholder.com/150?text=Disability',
