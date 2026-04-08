@@ -28,14 +28,16 @@ const PRIORITY_TO_CATEGORY = {
   cultural: 'attraction',
 }
 
-// ─── Budget tiers (total budget per day) ─────────────────────────────────────
-// Tier 1: $20–$50/day  → cheap options
-// Tier 2: $50–$100/day → mid options
-// Tier 3: $100+/day    → high/premium options
+const BUDGET_CAPS = [50, 100]
 
-const getBudgetTier = (budgetPerDay) => {
-  if (budgetPerDay <= 50) return 'cheap'
-  if (budgetPerDay <= 100) return 'mid'
+// ─── Budget tiers (total budget) ─────────────────────────────────────────────
+// Tier 1: $20–$50 total  → cheap options
+// Tier 2: $50–$100 total → mid options
+// Tier 3: $100+ total    → high/premium options
+
+const getBudgetTier = (budget) => {
+  if (budget <= 50) return 'cheap'
+  if (budget <= 100) return 'mid'
   return 'high'
 }
 
@@ -68,6 +70,8 @@ const getUserCriteria = (answers) => [
   ...toArray(answers?.[101]),
 ]
 
+const getPrimaryPriority = (priorities) => priorities[0] || null
+
 const dedupeById = (items) => {
   const seen = new Set()
   return items.filter((item) => {
@@ -80,36 +84,66 @@ const dedupeById = (items) => {
 const clamp01 = (value) => Math.max(0, Math.min(1, value))
 
 // ─── Budget allocation ────────────────────────────────────────────────────────
-// Base split: hotel 45%, restaurant 25%, attraction 30%.
-// Each priority answer shifts +12% toward that category, clamped to ≥18%.
+// The budget is split by the user's main priority and total budget tier.
+// This keeps the recommendation set within the user's total budget.
+
+const getBudgetCap = (budget) => {
+  if (budget <= 50) return 50
+  if (budget <= 100) return 100
+  return budget
+}
+
+const getBudgetRatios = (budgetCap, primaryPriority) => {
+  if (budgetCap <= 50) {
+    if (primaryPriority === 'food') {
+      return { hotel: 0.30, restaurant: 0.40, attraction: 0.30 }
+    }
+
+    if (primaryPriority === 'accommodation') {
+      return { hotel: 0.40, restaurant: 0.30, attraction: 0.30 }
+    }
+
+    return { hotel: 0.33, restaurant: 0.34, attraction: 0.33 }
+  }
+
+  if (budgetCap <= 100) {
+    if (primaryPriority === 'food') {
+      return { hotel: 0.30, restaurant: 0.45, attraction: 0.25 }
+    }
+
+    if (primaryPriority === 'accommodation') {
+      return { hotel: 0.45, restaurant: 0.30, attraction: 0.25 }
+    }
+
+    return { hotel: 0.35, restaurant: 0.35, attraction: 0.30 }
+  }
+
+  if (primaryPriority === 'food') {
+    return { hotel: 0.25, restaurant: 0.60, attraction: 0.15 }
+  }
+
+  if (primaryPriority === 'accommodation') {
+    return { hotel: 0.60, restaurant: 0.25, attraction: 0.15 }
+  }
+
+  return { hotel: 0.40, restaurant: 0.35, attraction: 0.25 }
+}
 
 const buildBudgetPlan = (totalBudget, days, priorities) => {
   const cappedBudget = Math.min(totalBudget, 1000)
   const budgetPerDay = cappedBudget / Math.max(days, 1)
-
-  const ratios = { hotel: 0.45, restaurant: 0.25, attraction: 0.30 }
-
-  priorities.forEach((priority) => {
-    const target = PRIORITY_TO_CATEGORY[priority]
-    if (!target) return
-
-    ratios[target] += 0.12
-    const others = Object.keys(ratios).filter((k) => k !== target)
-    others.forEach((k) => { ratios[k] -= 0.06 })
-  })
-
-  Object.keys(ratios).forEach((key) => {
-    ratios[key] = Math.max(0.18, ratios[key])
-  })
-
-  const totalRatio = ratios.hotel + ratios.restaurant + ratios.attraction
+  const budgetCap = getBudgetCap(cappedBudget)
+  const primaryPriority = getPrimaryPriority(priorities)
+  const ratios = getBudgetRatios(budgetCap, primaryPriority)
 
   return {
     budgetPerDay,
-    hotel:      (budgetPerDay * ratios.hotel)      / totalRatio,
-    restaurant: (budgetPerDay * ratios.restaurant) / totalRatio,
-    attraction: (budgetPerDay * ratios.attraction) / totalRatio,
-    tier:       getBudgetTier(budgetPerDay),
+    budgetCap,
+    primaryPriority,
+    hotel: budgetCap * ratios.hotel,
+    restaurant: budgetCap * ratios.restaurant,
+    attraction: budgetCap * ratios.attraction,
+    tier: getBudgetTier(budgetCap),
   }
 }
 
@@ -146,11 +180,60 @@ const getCriteriaScore = (itemCriteria, userCriteria) => {
  * Items whose average price is closest to the per-category budget limit score highest.
  * Items inside the budget range get a bonus.
  */
-const getBudgetScore = (item, budgetLimit) => {
+const getBudgetScore = (item, budgetLimit, category, primaryPriority) => {
   const avg = (item.priceRange.min + item.priceRange.max) / 2
-  const inRange = avg <= budgetLimit
-  const closeness = 1 - Math.abs(avg - budgetLimit) / Math.max(budgetLimit, 1)
-  return clamp01(closeness + (inRange ? 0.2 : 0))
+  const normalized = avg / Math.max(budgetLimit, 1)
+
+  if (primaryPriority === 'food' && category === 'restaurant') {
+    return clamp01(normalized)
+  }
+
+  if (primaryPriority === 'accommodation' && category === 'hotel') {
+    return clamp01(normalized)
+  }
+
+  if (category === 'hotel' || category === 'restaurant') {
+    return clamp01(1 - normalized)
+  }
+
+  return clamp01(1 - Math.abs(normalized - 0.45))
+}
+
+const getPriorityBoost = (item, priorities, category) => {
+  const boosts = []
+
+  if (category === 'restaurant' && priorities.includes('food')) {
+    boosts.push(item.criteria.includes('food') ? 0.25 : 0)
+    boosts.push(item.criteria.includes('fineDining') ? 0.12 : 0)
+  }
+
+  if (category === 'hotel' && priorities.includes('accommodation')) {
+    boosts.push(item.criteria.includes('accommodation') ? 0.20 : 0)
+    boosts.push(item.criteria.includes('disabilityFriendly') ? 0.12 : 0)
+  }
+
+  if (category === 'attraction' && priorities.includes('scenery')) {
+    boosts.push(item.criteria.includes('scenery') ? 0.18 : 0)
+  }
+
+  return Math.min(0.35, boosts.reduce((sum, value) => sum + value, 0))
+}
+
+const getPurposeBoost = (item, purposes) => {
+  if (!purposes.length) return 0
+
+  let boost = 0
+  if (purposes.includes('localFood') && item.criteria.includes('localFood')) boost += 0.12
+  if (purposes.includes('healing') && item.criteria.includes('healing')) boost += 0.10
+  if (purposes.includes('adventure') && item.criteria.includes('adventure')) boost += 0.10
+  if (purposes.includes('celebration') && item.criteria.includes('celebration')) boost += 0.10
+
+  return Math.min(0.25, boost)
+}
+
+const getAccessibilityBoost = (item, needsAccessibility, category) => {
+  if (!needsAccessibility || category !== 'hotel') return 0
+  return item.criteria.includes('disabilityFriendly') ? 0.18 : 0
 }
 
 // ─── Main picker ─────────────────────────────────────────────────────────────
@@ -163,11 +246,11 @@ const getBudgetScore = (item, budgetLimit) => {
  * 4. Criteria scoring (used for ranking, not filtering)
  * 5. Return top 3
  */
-const pickTopItems = ({ provinceItems, budgetLimit, category, userCriteria, transport }) => {
+const pickTopItems = ({ provinceItems, budgetLimit, category, userCriteria, transport, primaryPriority, needsAccessibility, purposes }) => {
   // Step 1 — province is already filtered upstream, but keep it explicit.
   let pool = [...provinceItems]
 
-  // Step 2 — hard budget filter: item must be affordable at this budget.
+  // Step 2 — hard budget filter: item must be affordable within category budget and total budget cap.
   const budgetFiltered = pool.filter((item) => item.priceRange.min <= budgetLimit)
 
   // Step 3 — soft transport filter (skip for hotels — you stay there, not travel to it).
@@ -176,19 +259,27 @@ const pickTopItems = ({ provinceItems, budgetLimit, category, userCriteria, tran
       ? budgetFiltered
       : budgetFiltered.filter((item) => isWithinTransportWindow(item, transport))
 
-  // Fallback: if strict filters leave nothing, loosen budget constraint.
-  const candidates = transportFiltered.length > 0 ? transportFiltered : budgetFiltered.length > 0 ? budgetFiltered : pool
+  const accessibilityFiltered =
+    category === 'hotel' && needsAccessibility
+      ? transportFiltered.filter((item) => item.criteria.includes('disabilityFriendly'))
+      : transportFiltered
 
-  // Step 4 — score and sort: criteria is primary (60%), budget proximity secondary (30%), rating tertiary (10%).
+  // Fallback: if strict filters leave nothing, keep the nearest valid items in the province.
+  const candidates = accessibilityFiltered.length > 0 ? accessibilityFiltered : transportFiltered.length > 0 ? transportFiltered : budgetFiltered.length > 0 ? budgetFiltered : pool
+
+  // Step 4 — score and sort: criteria is primary, budget fit changes by priority, then rating.
   const scored = candidates.map((item) => {
     const criteriaScore = getCriteriaScore(item.criteria, userCriteria)
-    const budgetScore   = getBudgetScore(item, budgetLimit)
+    const budgetScore   = getBudgetScore(item, budgetLimit, category, primaryPriority)
     const ratingScore   = (Number(item.rating) || 0) / 5
+    const purposeBoost   = getPurposeBoost(item, purposes)
+    const priorityBoost  = getPriorityBoost(item, prioritiesFromUser(primaryPriority, userCriteria), category)
+    const accessibilityBoost = getAccessibilityBoost(item, needsAccessibility, category)
 
     return {
       ...item,
       matchScore: criteriaScore,
-      finalScore: criteriaScore * 0.60 + budgetScore * 0.30 + ratingScore * 0.10,
+      finalScore: criteriaScore * 0.45 + budgetScore * 0.25 + ratingScore * 0.10 + purposeBoost * 0.10 + priorityBoost * 0.07 + accessibilityBoost * 0.03,
     }
   })
 
@@ -197,14 +288,35 @@ const pickTopItems = ({ provinceItems, budgetLimit, category, userCriteria, tran
   return dedupeById(scored).slice(0, 3)
 }
 
+const prioritiesFromUser = (primaryPriority, userCriteria) => {
+  const priorities = []
+
+  if (primaryPriority === 'food' || userCriteria.includes('food')) priorities.push('food')
+  if (primaryPriority === 'accommodation' || userCriteria.includes('accommodation')) priorities.push('accommodation')
+  if (userCriteria.includes('scenery')) priorities.push('scenery')
+
+  return priorities
+}
+
 // ─── Formatters ──────────────────────────────────────────────────────────────
 
 const formatRating = (value) => Number(value).toFixed(1)
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
-function RecommendationCard({ item, transport, category, onAddFavorite, isFavorite }) {
+function RecommendationCard({ item, transport, category, onAddFavorite, isFavorite, userCriteria }) {
   const showTravel = category !== 'hotel'
+  const hotelNotes = []
+
+  if (category === 'hotel') {
+    if (userCriteria.includes('disability') && item.criteria.includes('disabilityFriendly')) {
+      hotelNotes.push('Disability friendly')
+    }
+
+    if (userCriteria.includes('pets') && item.criteria.includes('petFriendly')) {
+      hotelNotes.push('Pet friendly')
+    }
+  }
 
   return (
     <article className="recommendation-card">
@@ -227,7 +339,8 @@ function RecommendationCard({ item, transport, category, onAddFavorite, isFavori
         </div>
 
         <div className="recommendation-card__meta">
-          <p>Match: {Math.round(item.matchScore * 100)}% · Rating: {formatRating(item.rating)} / 5</p>
+          <p>Rating: {formatRating(item.rating)} / 5</p>
+          {hotelNotes.length > 0 && <p>{hotelNotes.join(' · ')}</p>}
           <p>📍 {item.direction}</p>
           {item.mapUrl && (
             <p>
@@ -249,7 +362,7 @@ function RecommendationCard({ item, transport, category, onAddFavorite, isFavori
   )
 }
 
-function RecommendationSection({ title, items, emptyMessage, transport, category, onAddFavorite, favorites }) {
+function RecommendationSection({ title, items, emptyMessage, transport, category, onAddFavorite, favorites, userCriteria }) {
   return (
     <section className="recommendation-block">
       <h2>{title}</h2>
@@ -265,6 +378,7 @@ function RecommendationSection({ title, items, emptyMessage, transport, category
               transport={transport}
               category={category}
               onAddFavorite={onAddFavorite}
+              userCriteria={userCriteria}
               isFavorite={favorites.some(
                 (fav) => fav.id === item.id && fav.category === (item.category || category)
               )}
@@ -287,8 +401,10 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
 
   const userCriteria    = getUserCriteria(answers)
   const priorities      = toArray(answers?.[5])
+  const purposes        = toArray(answers?.[3])
   const selectedTransport = toArray(answers?.[4])[0] || 'walking'
   const budgetPlan      = buildBudgetPlan(budget, days, priorities)
+  const needsAccessibility = userCriteria.includes('disability')
 
   // ── Filter by province first ──────────────────────────────────────────────
   const hotelsForProvince      = hotels.filter((h) => normalizeProvince(h.province) === province)
@@ -302,6 +418,9 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
     category:      'hotel',
     userCriteria,
     transport:     selectedTransport,
+    primaryPriority: budgetPlan.primaryPriority,
+    needsAccessibility,
+    purposes,
   })
 
   const filteredRestaurants = pickTopItems({
@@ -310,6 +429,9 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
     category:      'restaurant',
     userCriteria,
     transport:     selectedTransport,
+    primaryPriority: budgetPlan.primaryPriority,
+    needsAccessibility,
+    purposes,
   })
 
   const filteredAttractions = pickTopItems({
@@ -318,6 +440,9 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
     category:      'attraction',
     userCriteria,
     transport:     selectedTransport,
+    primaryPriority: budgetPlan.primaryPriority,
+    needsAccessibility,
+    purposes,
   })
 
   return (
@@ -329,7 +454,7 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
           <span className="recommended-page__note">Province auto-selected from your quiz answers.</span>
         )}
         <span className="recommended-page__note">
-          Budget: ${budget} total · {days} day{days !== 1 ? 's' : ''} · ~${Math.round(budgetPlan.budgetPerDay)}/day ({budgetPlan.tier} tier)
+          Budget: ${budget} total · {days} day{days !== 1 ? 's' : ''} · category cap ${budgetPlan.budgetCap} max ({budgetPlan.tier} tier)
         </span>
         <span className="recommended-page__note">Transport: {selectedTransport}</span>
       </header>
@@ -343,6 +468,7 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
           category="hotel"
           onAddFavorite={onAddFavorite}
           favorites={favorites}
+          userCriteria={userCriteria}
         />
 
         <RecommendationSection
@@ -353,6 +479,7 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
           category="restaurant"
           onAddFavorite={onAddFavorite}
           favorites={favorites}
+          userCriteria={userCriteria}
         />
 
         <RecommendationSection
@@ -363,6 +490,7 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
           category="attraction"
           onAddFavorite={onAddFavorite}
           favorites={favorites}
+          userCriteria={userCriteria}
         />
       </div>
     </div>

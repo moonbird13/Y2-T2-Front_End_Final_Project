@@ -767,8 +767,12 @@
 }
 
 .quiz-page-main__answer-image {
-  font-size: 3rem;
-  line-height: 1;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .quiz-page-main__answer-label {

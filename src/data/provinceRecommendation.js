@@ -1,7 +1,7 @@
 // Province recommendation data used when user selects "Recommend me".
 
 export const preferenceProvinces = {
-  sea: ['Kampot', 'Koh Kong', 'Preah Sihanouk', 'Kep', 'Kratie', 'Stung Treng'],
+  sea: ['Preah Sihanouk'],
   mountain: [
     'Siem Reap',
     'Banteay Meanchey',

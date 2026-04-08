@@ -147,7 +147,7 @@ function QuizPage({ province, onClose, onComplete }) {
                   className={`quiz-page-main__answer ${isSelected(currentQuestion.id, answer.id) ? 'quiz-page-main__answer--selected' : ''}`}
                   onClick={() => handleAnswerSelect(answer.id)}
                 >
-                  <img src={answer.image} alt={answer.label} className="quiz-page-main__answer-image" />
+                  {answer.image ? <img src={answer.image} alt={answer.label} className="quiz-page-main__answer-image" /> : null}
                   <div className="quiz-page-main__answer-label">{answer.label}</div>
                 </button>
               ))}
@@ -161,7 +161,7 @@ function QuizPage({ province, onClose, onComplete }) {
                   className={`quiz-page-main__answer ${isSelected(currentQuestion.id, answer.id) ? 'quiz-page-main__answer--selected' : ''}`}
                   onClick={() => handleAnswerSelect(answer.id)}
                 >
-                  <img src={answer.image} alt={answer.label} className="quiz-page-main__answer-image" />
+                  {answer.image ? <img src={answer.image} alt={answer.label} className="quiz-page-main__answer-image" /> : null}
                   <div className="quiz-page-main__answer-label">{answer.label}</div>
                 </button>
               ))}

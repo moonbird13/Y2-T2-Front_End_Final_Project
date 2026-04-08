@@ -11,7 +11,7 @@ export const hotels = [
     direction: 'Siem Reap riverside area',
     phone: '+855 00 000 015',
     telegram: '@domnak_riverside',
-    criteria: ['accommodation', 'solo', 'friends', 'walking'],
+    criteria: ['accommodation', 'solo', 'friends', 'walking', 'disabilityFriendly', 'petFriendly'],
     priceRange: { min: 0, max: 29, label: '$15 / night' },
   },
   {
@@ -24,7 +24,7 @@ export const hotels = [
     direction: 'Siem Reap city center',
     phone: '+855 00 000 030',
     telegram: '@villa_indochine_angkor',
-    criteria: ['accommodation', 'family', 'car', 'cultural'],
+    criteria: ['accommodation', 'family', 'car', 'cultural', 'disabilityFriendly', 'petFriendly'],
     priceRange: { min: 30, max: 149, label: '$30 / night' },
   },
   {
@@ -37,7 +37,7 @@ export const hotels = [
     direction: 'Wat Bo Road, Siem Reap',
     phone: '+855 00 000 150',
     telegram: '@borei_angkor',
-    criteria: ['accommodation', 'partner', 'fineDining', 'car'],
+    criteria: ['accommodation', 'partner', 'fineDining', 'car', 'disabilityFriendly', 'petFriendly'],
     priceRange: { min: 150, max: 500, label: '$150+ / night' },
   },
 
@@ -53,7 +53,7 @@ export const hotels = [
     direction: 'Sihanoukville town area',
     phone: '+855 00 000 115',
     telegram: '@john_bosco_guesthouse',
-    criteria: ['accommodation', 'solo', 'walking', 'sea'],
+    criteria: ['accommodation', 'solo', 'walking', 'sea', 'disabilityFriendly', 'petFriendly'],
     priceRange: { min: 0, max: 29, label: '$15 / night' },
   },
   {
@@ -66,7 +66,7 @@ export const hotels = [
     direction: 'Sihanoukville mid-range district',
     phone: '+855 00 000 130',
     telegram: '@manoha_villa',
-    criteria: ['accommodation', 'family', 'motorbike', 'sea'],
+    criteria: ['accommodation', 'family', 'motorbike', 'sea', 'disabilityFriendly', 'petFriendly'],
     priceRange: { min: 30, max: 149, label: '$30 / night' },
   },
   {
@@ -79,7 +79,7 @@ export const hotels = [
     direction: 'Sihanoukville beachfront',
     phone: '+855 00 000 150',
     telegram: '@novotel_sihanoukville',
-    criteria: ['accommodation', 'partner', 'fineDining', 'sea'],
+    criteria: ['accommodation', 'partner', 'fineDining', 'sea', 'disabilityFriendly', 'petFriendly'],
     priceRange: { min: 150, max: 500, label: '$150+ / night' },
   },
 ]
