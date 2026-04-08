@@ -190,12 +190,22 @@ const getPriceScore = (item, budgetLimit, preferPremium) => {
 
 const formatRating = (value) => Number(value).toFixed(1)
 
-function RecommendationCard({ item, transport, category }) {
+function RecommendationCard({ item, transport, category, onAddFavorite, isFavorite }) {
   const showTravel = category !== 'hotel'
 
   return (
     <article className="recommendation-card">
-      <img src={item.image} alt={item.name} className="recommendation-card__image" />
+      <div className="recommendation-card__image-container">
+        <img src={item.image} alt={item.name} className="recommendation-card__image" />
+        <button
+          type="button"
+          className={`favorite-star ${isFavorite ? 'favorite-star--active' : ''}`}
+          onClick={() => onAddFavorite(item)}
+          aria-label={isFavorite ? `Remove ${item.name} from favorites` : `Add ${item.name} to favorites`}
+        >
+          ★
+        </button>
+      </div>
 
       <div className="recommendation-card__content">
         <div className="recommendation-card__title-row">
@@ -222,7 +232,7 @@ function RecommendationCard({ item, transport, category }) {
   )
 }
 
-function RecommendationSection({ title, items, emptyMessage, transport, category }) {
+function RecommendationSection({ title, items, emptyMessage, transport, category, onAddFavorite, favorites }) {
   return (
     <section className="recommendation-block">
       <h2>{title}</h2>
@@ -232,7 +242,14 @@ function RecommendationSection({ title, items, emptyMessage, transport, category
       ) : (
         <div className="recommendation-block__list">
           {items.map((item) => (
-            <RecommendationCard key={item.id} item={item} transport={transport} category={category} />
+            <RecommendationCard
+              key={item.id}
+              item={item}
+              transport={transport}
+              category={category}
+              onAddFavorite={onAddFavorite}
+              isFavorite={favorites.some(fav => fav.id === item.id && fav.category === category)}
+            />
           ))}
         </div>
       )}
@@ -240,7 +257,7 @@ function RecommendationSection({ title, items, emptyMessage, transport, category
   )
 }
 
-function RecommendedPage({ answers }) {
+function RecommendedPage({ answers, onAddFavorite, favorites }) {
   const budget = Number(answers?.budget) || 1000
   const days = Number(answers?.days) || 3
   const requestedProvince = String(answers?.requestedProvince || answers?.province || '').trim()
@@ -329,6 +346,8 @@ function RecommendedPage({ answers }) {
           emptyMessage="No hotels matched your criteria strongly enough."
           transport={selectedTransport}
           category="hotel"
+          onAddFavorite={onAddFavorite}
+          favorites={favorites}
         />
 
         <RecommendationSection
@@ -337,6 +356,8 @@ function RecommendedPage({ answers }) {
           emptyMessage="No restaurants matched your current criteria and budget."
           transport={selectedTransport}
           category="restaurant"
+          onAddFavorite={onAddFavorite}
+          favorites={favorites}
         />
 
         <RecommendationSection
@@ -345,6 +366,8 @@ function RecommendedPage({ answers }) {
           emptyMessage="No attractions matched your current criteria and budget."
           transport={selectedTransport}
           category="attraction"
+          onAddFavorite={onAddFavorite}
+          favorites={favorites}
         />
       </div>
     </div>

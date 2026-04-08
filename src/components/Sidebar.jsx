@@ -1,4 +1,4 @@
-function Sidebar({ open, onClose, onGoHome, onGoRecommendation, canGoRecommendation, currentView }) {
+function Sidebar({ open, onClose, onGoHome, onGoRecommendation, onGoFavouriteTab, canGoRecommendation, currentView }) {
   return (
     <>
       <div
@@ -42,6 +42,18 @@ function Sidebar({ open, onClose, onGoHome, onGoRecommendation, canGoRecommendat
             disabled={!canGoRecommendation || currentView === 'recommendation'}
           >
             Go To Recommendation Page
+          </button>
+
+          <button
+            type="button"
+            className="sidebar__action"
+            onClick={() => {
+              onGoFavouriteTab()
+              onClose()
+            }}
+            disabled={currentView === 'favourite'}
+          >
+            Favourite Tab
           </button>
 
           <a href="#contact">Contact us</a>

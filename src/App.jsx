@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import AuthModal from './components/AuthModal'
+import FavouriteTab from './components/FavouriteTab'
 import Header from './components/Header'
 import HeroCarousel from './components/HeroCarousel'
 import QuizPage from './components/QuizPage'
@@ -20,12 +21,42 @@ function App() {
   const [showQuizPage, setShowQuizPage] = useState(false)
   const [showRecommendedPage, setShowRecommendedPage] = useState(false)
   const [quizAnswers, setQuizAnswers] = useState(null)
+  const [favorites, setFavorites] = useState([])
+  const [showFavouriteTab, setShowFavouriteTab] = useState(false)
 
   const hasRecommendationResult = Boolean(quizAnswers)
-  const currentView = showRecommendedPage ? 'recommendation' : 'hero'
+  const currentView = showFavouriteTab ? 'favourite' : showRecommendedPage ? 'recommendation' : 'hero'
 
   const handleAuthenticate = (authUser) => {
     setUser(authUser)
+  }
+
+  const handleAddFavorite = (item) => {
+    if (!user) {
+      setAuthOpen(true)
+      return
+    }
+
+    setFavorites(prev => {
+      const exists = prev.some(fav => fav.id === item.id && fav.category === item.category)
+      if (exists) {
+        return prev.filter(fav => !(fav.id === item.id && fav.category === item.category))
+      }
+      return [...prev, { ...item, category: item.category }]
+    })
+  }
+
+  const handleRemoveFavorite = (item) => {
+    setFavorites(prev => prev.filter(fav => !(fav.id === item.id && fav.category === item.category)))
+  }
+
+  const handleGoFavouriteTab = () => {
+    setShowFavouriteTab(true)
+    setShowRecommendedPage(false)
+  }
+
+  const handleCloseFavouriteTab = () => {
+    setShowFavouriteTab(false)
   }
 
   const handleLogout = () => {
@@ -69,11 +100,13 @@ function App() {
 
   const handleGoHomeFromMenu = () => {
     setShowRecommendedPage(false)
+    setShowFavouriteTab(false)
   }
 
   const handleGoRecommendationFromMenu = () => {
     if (hasRecommendationResult) {
       setShowRecommendedPage(true)
+      setShowFavouriteTab(false)
     }
   }
 
@@ -88,8 +121,14 @@ function App() {
       />
 
       <main className="page">
-        {showRecommendedPage ? (
-          <RecommendedPage answers={quizAnswers} />
+        {showFavouriteTab ? (
+          <FavouriteTab
+            favorites={favorites}
+            onRemoveFavorite={handleRemoveFavorite}
+            onClose={handleCloseFavouriteTab}
+          />
+        ) : showRecommendedPage ? (
+          <RecommendedPage answers={quizAnswers} onAddFavorite={handleAddFavorite} favorites={favorites} />
         ) : (
           <section className="hero-grid">
             <div className="hero-copy">
@@ -122,6 +161,7 @@ function App() {
         onClose={() => setSidebarOpen(false)}
         onGoHome={handleGoHomeFromMenu}
         onGoRecommendation={handleGoRecommendationFromMenu}
+        onGoFavouriteTab={handleGoFavouriteTab}
         canGoRecommendation={hasRecommendationResult}
         currentView={currentView}
       />
