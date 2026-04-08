@@ -3,6 +3,8 @@ import './App.css'
 import AuthModal from './components/AuthModal'
 import Header from './components/Header'
 import HeroCarousel from './components/HeroCarousel'
+import QuizPage from './components/QuizPage'
+import QuizRequiedPopup from './components/QuizRequiedPopup'
 import Sidebar from './components/Sidebar'
 import StartQuizButton from './components/StartQuizButton'
 import { carouselSlides } from './data/carouselSlides'
@@ -11,6 +13,9 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [authOpen, setAuthOpen] = useState(false)
   const [user, setUser] = useState(null)
+  const [quizOpen, setQuizOpen] = useState(false)
+  const [quizData, setQuizData] = useState(null)
+  const [showQuizPage, setShowQuizPage] = useState(false)
 
   const handleAuthenticate = (authUser) => {
     setUser(authUser)
@@ -21,6 +26,21 @@ function App() {
     setAuthOpen(false)
   }
 
+  const handleStartQuiz = () => {
+    setQuizOpen(true)
+  }
+
+  const handleQuizContinue = (data) => {
+    setQuizData(data)
+    setQuizOpen(false)
+    setShowQuizPage(true)
+  }
+
+  const handleQuizClose = () => {
+    setShowQuizPage(false)
+    setQuizData(null)
+  }
+
   return (
     <div className="app-shell">
       <Header
@@ -28,7 +48,7 @@ function App() {
         onLoginClick={() => setAuthOpen(true)}
         onLogoutClick={handleLogout}
         isAuthenticated={Boolean(user)}
-        userName={user?.name ?? ''}
+        user={user}
       />
 
       <main className="page">
@@ -40,12 +60,8 @@ function App() {
             </p>
 
             <div className="hero-copy__actions">
-              <StartQuizButton />
-              {user ? (
-                <button type="button" className="button button--ghost" onClick={handleLogout}>
-                  Logout
-                </button>
-              ) : (
+              <StartQuizButton onClick={handleStartQuiz} />
+              {!user && (
                 <button type="button" className="button button--ghost" onClick={() => setAuthOpen(true)}>
                   Login
                 </button>
@@ -56,6 +72,10 @@ function App() {
           <HeroCarousel slides={carouselSlides} />
         </section>
       </main>
+
+      {quizOpen && <QuizRequiedPopup open={quizOpen} onClose={() => setQuizOpen(false)} onContinue={handleQuizContinue} />}
+
+      {showQuizPage && <QuizPage province={quizData.province} onClose={handleQuizClose} />}
 
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <AuthModal

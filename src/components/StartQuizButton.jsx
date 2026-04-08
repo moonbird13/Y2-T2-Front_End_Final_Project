@@ -1,6 +1,6 @@
-function StartQuizButton() {
+function StartQuizButton({ onClick }) {
   const handleClick = () => {
-    alert('Quiz Started!')
+    if (onClick) onClick()
   }
 
   return (

@@ -20,15 +20,8 @@ function Sidebar({ open, onClose }) {
         </p>
 
         <nav className="sidebar__nav" aria-label="Support links">
-          <a href="#support-email">Email support</a>
-          <a href="#faq">FAQ</a>
           <a href="#contact">Contact us</a>
         </nav>
-
-        <div className="sidebar__card" id="support-email">
-          <strong>Support email</strong>
-          <span>support@komrongtrip.com</span>
-        </div>
       </aside>
     </>
   )
