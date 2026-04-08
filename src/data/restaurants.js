@@ -1,3 +1,5 @@
+import  kompongSomAttractionsMiddle  from '../assets/Recommand/Mid.webp'
+
 export const restaurants = [
   // ─── Siem Reap ───────────────────────────────────────────────────────────────
 
@@ -49,74 +51,6 @@ export const restaurants = [
     criteria: ['food', 'fineDining', 'celebration', 'partner'],
     priceRange: { min: 150, max: 500, label: '$150+ / person' },
   },
-  {
-    id: 'sr-amok-kitchen',
-    name: 'Amok Kitchen Siem Reap',
-    category: 'restaurant',
-    province: 'Siem Reap',
-    image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80',
-    rating: 4.6,
-    direction: 'Pub Street lane 2',
-    phone: '+855 96 222 300',
-    telegram: '@amok_sr',
-    criteria: ['food', 'localFood', 'friends', 'allergy'],
-    priceRange: { min: 8, max: 20, label: '$8-$20 / person' },
-  },
-  {
-    id: 'sr-royal-fork',
-    name: 'Royal Fork Dining',
-    category: 'restaurant',
-    province: 'Siem Reap',
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80',
-    rating: 4.7,
-    direction: 'Sivatha Blvd',
-    phone: '+855 89 302 211',
-    telegram: '@royal_fork_sr',
-    criteria: ['food', 'fineDining', 'partner', 'car'],
-    priceRange: { min: 28, max: 72, label: '$28-$72 / person' },
-  },
-  {
-    id: 'sr-market-bites',
-    name: 'Old Market Bites',
-    category: 'restaurant',
-    province: 'Siem Reap',
-    image: 'https://images.unsplash.com/photo-1532634786-8f5043ed0f69?auto=format&fit=crop&w=1200&q=80',
-    rating: 4.2,
-    direction: 'Old Market lane',
-    phone: '+855 77 900 100',
-    telegram: '@oldmarket_bites',
-    criteria: ['food', 'localFood', 'walking', 'solo'],
-    priceRange: { min: 4, max: 12, label: '$4-$12 / person' },
-  },
-
-  // ─── Kampot ──────────────────────────────────────────────────────────────────
-
-  {
-    id: 'kampot-pepper-garden',
-    name: 'Pepper Garden Dining',
-    category: 'restaurant',
-    province: 'Kampot',
-    image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1200&q=80',
-    rating: 4.5,
-    direction: 'Near Kampot riverside bridge',
-    phone: '+855 69 100 201',
-    telegram: '@pepper_garden',
-    criteria: ['food', 'healing', 'partner', 'allergy'],
-    priceRange: { min: 10, max: 28, label: '$10-$28 / person' },
-  },
-  {
-    id: 'kampot-river-cafe',
-    name: 'Riverbank Cafe',
-    category: 'restaurant',
-    province: 'Kampot',
-    image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1200&q=80',
-    rating: 4.3,
-    direction: 'Riverside walking street',
-    phone: '+855 98 120 709',
-    telegram: '@riverbank_kampot',
-    criteria: ['food', 'cafeHopping', 'walking', 'friends'],
-    priceRange: { min: 5, max: 15, label: '$5-$15 / person' },
-  },
 
   // ─── Preah Sihanouk (Kompong Som) ────────────────────────────────────────────
 
@@ -143,8 +77,8 @@ export const restaurants = [
     province: 'Preah Sihanouk',
     source: 'user-tier',
     tier: 'mid',
-    image: ': https://lh3.googleusercontent.com/gps-cs-s/AHVAwepsvLgGUjJFrH7D7PU-mgci6WuMmEckMfMupaf5qOu6vQP-Qwyr9-UM4RsK6IkJxs7lZ2JYJRuoNDMAnoCsAeaYzXrwIYjYGOHLHvZLFcIKp-PdRBywB_sQ5sGWp297Ci5f4mie=s1360-w1360-h1020-rw',
-    rating: 4.4,
+      image: kompongSomAttractionsMiddle,
+      rating: 4.4,
     direction: 'Sihanoukville mid-range district',
     mapUrl: 'https://share.google/YXeXSCTpgnY9lNn76',
     phone: '+855 00 000 031',
@@ -159,7 +93,7 @@ export const restaurants = [
     province: 'Preah Sihanouk',
     source: 'user-tier',
     tier: 'high',
-    image: ' https://sevenpaintingsubud.com/wp-content/uploads/2025/07/fine-dining-1024x683.png',
+    image: 'https://sevenpaintingsubud.com/wp-content/uploads/2025/07/fine-dining-1024x683.png',
     rating: 4.7,
     direction: 'JHL Collections — Angkasa Restaurant',
     mapUrl: 'https://arjuna.jhlcollections.com/en/offers/detail/night-of-flavors-limitless-dinner-at-angkasa-restaurant',
@@ -167,111 +101,5 @@ export const restaurants = [
     telegram: '@ps_fine_dining',
     criteria: ['food', 'fineDining', 'celebration', 'partner', 'sea'],
     priceRange: { min: 150, max: 500, label: '$150+ / person' },
-  },
-  {
-    id: 'ps-ocean-fresh',
-    name: 'Ocean Fresh Grill',
-    category: 'restaurant',
-    province: 'Preah Sihanouk',
-    image: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1200&q=80',
-    rating: 4.3,
-    direction: 'Ochheuteal beachfront',
-    phone: '+855 86 532 420',
-    telegram: '@oceanfresh_grill',
-    criteria: ['food', 'sea', 'friends', 'adventure'],
-    priceRange: { min: 9, max: 24, label: '$9-$24 / person' },
-  },
-  {
-    id: 'ps-sunset-table',
-    name: 'Sunset Table',
-    category: 'restaurant',
-    province: 'Preah Sihanouk',
-    image: 'https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=1200&q=80',
-    rating: 4.6,
-    direction: 'Otres hill viewpoint',
-    phone: '+855 90 451 200',
-    telegram: '@sunset_table_ps',
-    criteria: ['food', 'fineDining', 'partner', 'sea'],
-    priceRange: { min: 26, max: 64, label: '$26-$64 / person' },
-  },
-
-  // ─── Mondulkiri ──────────────────────────────────────────────────────────────
-
-  {
-    id: 'mondul-forest-bowl',
-    name: 'Forest Bowl Kitchen',
-    category: 'restaurant',
-    province: 'Mondulkiri',
-    image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80',
-    rating: 4.4,
-    direction: 'Sen Monorom center',
-    phone: '+855 81 820 450',
-    telegram: '@forest_bowl',
-    criteria: ['food', 'mountain', 'healing', 'allergy'],
-    priceRange: { min: 7, max: 19, label: '$7-$19 / person' },
-  },
-
-  // ─── Battambang ──────────────────────────────────────────────────────────────
-
-  {
-    id: 'bat-khmer-table',
-    name: 'Khmer Table Battambang',
-    category: 'restaurant',
-    province: 'Battambang',
-    image: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1200&q=80',
-    rating: 4.5,
-    direction: 'Riverside road',
-    phone: '+855 85 300 410',
-    telegram: '@khmer_table_btb',
-    criteria: ['food', 'cultural', 'family', 'localFood'],
-    priceRange: { min: 8, max: 22, label: '$8-$22 / person' },
-  },
-
-  // ─── Kep ─────────────────────────────────────────────────────────────────────
-
-  {
-    id: 'kep-crab-master',
-    name: 'Crab Master Kep',
-    category: 'restaurant',
-    province: 'Kep',
-    image: 'https://images.unsplash.com/photo-1559847844-d721426d6edc?auto=format&fit=crop&w=1200&q=80',
-    rating: 4.4,
-    direction: 'Kep crab market pier',
-    phone: '+855 70 221 918',
-    telegram: '@crab_master_kep',
-    criteria: ['food', 'sea', 'family', 'localFood'],
-    priceRange: { min: 12, max: 30, label: '$12-$30 / person' },
-  },
-
-  // ─── Koh Kong ────────────────────────────────────────────────────────────────
-
-  {
-    id: 'kohkong-waterfront',
-    name: 'Waterfront Noodle Hub',
-    category: 'restaurant',
-    province: 'Koh Kong',
-    image: 'https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=1200&q=80',
-    rating: 4.1,
-    direction: 'Koh Kong riverside strip',
-    phone: '+855 95 881 334',
-    telegram: '@waterfront_hub',
-    criteria: ['food', 'adventure', 'friends', 'motorbike'],
-    priceRange: { min: 4, max: 14, label: '$4-$14 / person' },
-  },
-
-  // ─── Kandal ──────────────────────────────────────────────────────────────────
-
-  {
-    id: 'kandal-skyline-dining',
-    name: 'Skyline Dining Kandal',
-    category: 'restaurant',
-    province: 'Kandal',
-    image: 'https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?auto=format&fit=crop&w=1200&q=80',
-    rating: 4.6,
-    direction: 'Ta Khmau ring road',
-    phone: '+855 66 111 450',
-    telegram: '@skyline_kandal',
-    criteria: ['food', 'city', 'fineDining', 'car'],
-    priceRange: { min: 22, max: 60, label: '$22-$60 / person' },
   },
 ]
