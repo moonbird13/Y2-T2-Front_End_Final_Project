@@ -1,4 +1,4 @@
-function Sidebar({ open, onClose }) {
+function Sidebar({ open, onClose, onGoHome, onGoRecommendation, canGoRecommendation, currentView }) {
   return (
     <>
       <div
@@ -19,7 +19,31 @@ function Sidebar({ open, onClose }) {
           Need help planning a trip? Reach out here and we will wire the real support flow later.
         </p>
 
-        <nav className="sidebar__nav" aria-label="Support links">
+        <nav className="sidebar__nav" aria-label="App navigation links">
+          <button
+            type="button"
+            className="sidebar__action"
+            onClick={() => {
+              onGoHome()
+              onClose()
+            }}
+            disabled={currentView === 'hero'}
+          >
+            Go To Hero Page
+          </button>
+
+          <button
+            type="button"
+            className="sidebar__action"
+            onClick={() => {
+              onGoRecommendation()
+              onClose()
+            }}
+            disabled={!canGoRecommendation || currentView === 'recommendation'}
+          >
+            Go To Recommendation Page
+          </button>
+
           <a href="#contact">Contact us</a>
         </nav>
       </aside>

@@ -67,7 +67,7 @@ const baseQuizQuestions = [
     questionGroup: 'Will there be any..?',
     type: 'conditional',
     maxSelections: 2,
-    minSelections: 2,
+    minSelections: 1,
     answersSolo: [
       { id: 'disability', label: 'Have disability', image: placeholderImages.disability },
       { id: 'pets', label: 'Travel with pets', image: placeholderImages.pets },
@@ -88,6 +88,8 @@ const baseQuizQuestions = [
     id: 3,
     question: 'What is the purpose of this trip?',
     type: 'standard',
+    maxSelections: 2,
+    minSelections: 1,
     answers: [
       { id: 'localFood', label: 'Local Food', image: placeholderImages.localFood },
       { id: 'healing', label: 'Healing', image: placeholderImages.healing },
@@ -117,7 +119,7 @@ const baseQuizQuestions = [
     question: 'What do you prioritize on your trip?',
     type: 'standard',
     maxSelections: 2,
-    minSelections: 2,
+    minSelections: 1,
     answers: [
       { id: 'food', label: 'Food', image: placeholderImages.food },
       { id: 'accommodation', label: 'Accommodation', image: placeholderImages.accommodation },
@@ -133,7 +135,7 @@ const baseQuizQuestions = [
     question: 'What is your ideal activity?',
     type: 'standard',
     maxSelections: 2,
-    minSelections: 2,
+    minSelections: 1,
     answers: [
       { id: 'cafeHopping', label: 'Cafe-hopping', image: placeholderImages.cafeHopping },
       { id: 'fineDining', label: 'Fine-dining', image: placeholderImages.fineDining },

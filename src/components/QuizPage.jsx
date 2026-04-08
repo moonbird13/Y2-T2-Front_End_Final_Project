@@ -78,7 +78,7 @@ function QuizPage({ province, onClose, onComplete }) {
 
     if (!hasEnoughSelections) {
       // Show feedback near the question and animate the container.
-      setWarningMessage(currentSelectionCount === 0 ? 'Please choose an option' : 'Please choose another option')
+      setWarningMessage('Please choose an option')
       setIsRattling(true)
       setTimeout(() => setIsRattling(false), 360)
       return
