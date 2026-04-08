@@ -5,6 +5,7 @@ import Header from './components/Header'
 import HeroCarousel from './components/HeroCarousel'
 import QuizPage from './components/QuizPage'
 import QuizRequiedPopup from './components/QuizRequiedPopup'
+import RecommendedPage from './components/RecommendedPage'
 import Sidebar from './components/Sidebar'
 import StartQuizButton from './components/StartQuizButton'
 import { carouselSlides } from './data/carouselSlides'
@@ -16,6 +17,8 @@ function App() {
   const [quizOpen, setQuizOpen] = useState(false)
   const [quizData, setQuizData] = useState(null)
   const [showQuizPage, setShowQuizPage] = useState(false)
+  const [showRecommendedPage, setShowRecommendedPage] = useState(false)
+  const [quizAnswers, setQuizAnswers] = useState(null)
 
   const handleAuthenticate = (authUser) => {
     setUser(authUser)
@@ -39,6 +42,17 @@ function App() {
   const handleQuizClose = () => {
     setShowQuizPage(false)
     setQuizData(null)
+  }
+
+  const handleQuizComplete = (answers) => {
+    setShowQuizPage(false)
+    setShowRecommendedPage(true)
+    setQuizAnswers(answers)
+    console.log('Quiz completed with answers:', answers)
+  }
+
+  const handleRecommendedClose = () => {
+    setShowRecommendedPage(false)
   }
 
   return (
@@ -75,7 +89,9 @@ function App() {
 
       {quizOpen && <QuizRequiedPopup open={quizOpen} onClose={() => setQuizOpen(false)} onContinue={handleQuizContinue} />}
 
-      {showQuizPage && <QuizPage province={quizData.province} onClose={handleQuizClose} />}
+      {showQuizPage && <QuizPage province={quizData.province} onClose={handleQuizClose} onComplete={handleQuizComplete} />}
+
+      {showRecommendedPage && <RecommendedPage onClose={handleRecommendedClose} answers={quizAnswers} />}
 
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <AuthModal

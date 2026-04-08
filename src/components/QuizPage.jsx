@@ -2,7 +2,7 @@ import { useState } from 'react'
 import quizBackground from '../assets/Background.avif'
 import { getQuizQuestions } from '../data/quizQuestions'
 
-function QuizPage({ province, onClose }) {
+function QuizPage({ province, onClose, onComplete }) {
   const quizQuestions = getQuizQuestions(province)
   const [currentQuestionId, setCurrentQuestionId] = useState(quizQuestions[0]?.id ?? 1)
   const [questionHistory, setQuestionHistory] = useState([])
@@ -15,6 +15,9 @@ function QuizPage({ province, onClose }) {
 
   const currentQuestion = quizQuestions.find((q) => q.id === currentQuestionId)
   const currentQuestionIndex = quizQuestions.findIndex((q) => q.id === currentQuestionId)
+
+  const nextId = currentQuestion?.nextQuestion
+  const hasNextQuestion = nextId ? quizQuestions.some((question) => question.id === nextId) : false
 
   // Supports selected state checks for both single-select and multi-select questions.
   const isSelected = (questionId, answerId) => {
@@ -91,6 +94,11 @@ function QuizPage({ province, onClose }) {
     if (nextId && hasNextQuestion) {
       setQuestionHistory((prev) => [...prev, currentQuestion.id])
       setCurrentQuestionId(nextId)
+    } else {
+      // Last question, complete the quiz
+      if (onComplete) {
+        onComplete(selectedAnswers)
+      }
     }
   }
 
@@ -180,7 +188,7 @@ function QuizPage({ province, onClose }) {
             type="button"
             className="quiz-page-main__nav-btn"
             onClick={handleNext}
-            disabled={currentQuestion.nextQuestion === null}
+            disabled={!hasNextQuestion && nextId !== null}
             aria-label="Next question"
           >
             ▶
