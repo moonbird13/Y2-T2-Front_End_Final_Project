@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import AuthModal from './components/AuthModal'
 import FavouriteTab from './components/FavouriteTab'
+import Footer from './components/Footer'
 import Header from './components/Header'
 import HeroCarousel from './components/HeroCarousel'
 import HistoryTab from './components/HistoryTab'
@@ -253,6 +254,8 @@ function App() {
         onClose={() => setAuthOpen(false)}
         onAuthenticate={handleAuthenticate}
       />
+
+      <Footer />
     </div>
   )
 }

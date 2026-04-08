@@ -55,8 +55,6 @@ function Sidebar({ open, onClose, onGoHome, onGoRecommendation, onGoFavouriteTab
           >
             Favourite Tab
           </button>
-
-          <a href="#contact">Contact us</a>
         </nav>
       </aside>
     </>
