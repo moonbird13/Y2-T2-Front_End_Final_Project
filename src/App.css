@@ -133,7 +133,7 @@
 }
 
 .topbar__actions,
-.hero-copy__actions {
+.home-copy__actions {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -295,7 +295,7 @@
   background: #1e1829;
 }
 
-.hero-grid {
+.home-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(340px, 1fr);
   align-items: center;
@@ -304,11 +304,11 @@
   padding: 28px 0 36px;
 }
 
-.hero-copy {
+.home-copy {
   max-width: 520px;
 }
 
-.hero-copy__eyebrow,
+.home-copy__eyebrow,
 .auth-modal__eyebrow,
 .hero-carousel__eyebrow {
   margin: 0 0 12px;
@@ -319,7 +319,7 @@
   color: #f06c45;
 }
 
-.hero-copy h1 {
+.home-copy h1 {
   margin: 0;
   font-size: clamp(2.6rem, 5vw, 4.7rem);
   line-height: 0.98;
@@ -327,7 +327,7 @@
   color: #131018;
 }
 
-.hero-copy__description {
+.home-copy__description {
   margin-top: 20px;
   max-width: 420px;
   font-size: 1.05rem;

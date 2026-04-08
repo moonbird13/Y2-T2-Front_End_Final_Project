@@ -27,9 +27,9 @@ function Sidebar({ open, onClose, onGoHome, onGoRecommendation, onGoFavouriteTab
               onGoHome()
               onClose()
             }}
-            disabled={currentView === 'hero'}
+            disabled={currentView === 'home'}
           >
-            Go To Hero Page
+            Go To Home Page
           </button>
 
           <button

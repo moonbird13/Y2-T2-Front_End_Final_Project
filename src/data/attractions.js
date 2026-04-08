@@ -1,7 +1,52 @@
 export const attractions = [
+  // ─── Siem Reap ───────────────────────────────────────────────────────────────
+
+  {
+    id: 'sr-angkor-free',
+    name: 'Angkor Wat Temple Visit',
+    category: 'attraction',
+    province: 'Siem Reap',
+    image: 'https://www.google.com/imgres?q=angkor%20wat&imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Ff%2Ff5%2FBuddhist_monks_in_front_of_the_Angkor_Wat.jpg&imgrefurl=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FAngkor_Wat&docid=uG3dmGPdh-qAwM&tbnid=xbW3pdsrnqg2kM&vet=12ahUKEwiuz6ijwN6TAxU48jgGHZDFIu4QnPAOegQIGhAB..i&w=3496&h=1967&hcb=2&ved=2ahUKEwiuz6ijwN6TAxU48jgGHZDFIu4QnPAOegQIGhAB',
+    rating: 4.9,
+    direction: 'Angkor Archaeological Park',
+    phone: '+855 63 760 111',
+    telegram: '@angkor_info',
+    mapUrl: 'https://share.google/0Qvtc2IvGQNDNpuuj',
+    criteria: ['landmarks', 'cultural', 'family', 'walking', 'solo'],
+    priceRange: { min: 0, max: 0, label: 'Free' },
+  },
+  {
+    id: 'sr-angkor-sunset',
+    name: 'Angkor Wat Sunset Watch',
+    category: 'attraction',
+    province: 'Siem Reap',
+    image: 'https://www.khmertimeskh.com/wp-content/uploads/2022/03/Angkor-Wat-Equinox-expected-to-draw-crowds.jpg',
+    rating: 4.8,
+    direction: 'Angkor Wat west reflecting pool',
+    phone: '+855 63 760 111',
+    telegram: '@angkor_info',
+    mapUrl: 'https://share.google/0Qvtc2IvGQNDNpuuj',
+    criteria: ['landmarks', 'cultural', 'partner', 'scenery', 'healing'],
+    priceRange: { min: 5, max: 5, label: '$5 / person' },
+  },
+  {
+    id: 'sr-angkor-wildlife',
+    name: 'Angkor Wildlife & Nature Tour',
+    category: 'attraction',
+    province: 'Siem Reap',
+    image: 'https://lh3.googleusercontent.com/p/AF1QipNlXdIYLwMaf3vyaIlAT4nVqFtmqhJBW6ENTjW1=s1360-w1360-h1020-rw',
+    rating: 4.7,
+    direction: 'Angkor Wildlife booking — angkorwildlife.com',
+    phone: '+855 63 760 111',
+    telegram: '@angkor_wildlife',
+    mapUrl: 'https://angkorwildlife.com/bookings/',
+    criteria: ['adventure', 'landmarks', 'family', 'car', 'cultural'],
+    priceRange: { min: 20, max: 45, label: '$20-$45 / person' },
+  },
   {
     id: 'sr-angkor-circuit',
     name: 'Angkor Temple Circuit',
+    category: 'attraction',
     province: 'Siem Reap',
     image: 'https://images.unsplash.com/photo-1597149954286-97d4a6dbe4b8?auto=format&fit=crop&w=1200&q=80',
     rating: 4.9,
@@ -14,6 +59,7 @@ export const attractions = [
   {
     id: 'sr-night-culture',
     name: 'Night Culture Walk',
+    category: 'attraction',
     province: 'Siem Reap',
     image: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1200&q=80',
     rating: 4.4,
@@ -26,6 +72,7 @@ export const attractions = [
   {
     id: 'sr-cafe-map',
     name: 'Siem Reap Cafe Route',
+    category: 'attraction',
     province: 'Siem Reap',
     image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80',
     rating: 4.3,
@@ -35,9 +82,13 @@ export const attractions = [
     criteria: ['cafeHopping', 'walking', 'solo', 'city'],
     priceRange: { min: 4, max: 18, label: '$4-$18 / person' },
   },
+
+  // ─── Kampot ──────────────────────────────────────────────────────────────────
+
   {
     id: 'kampot-cave-day',
     name: 'Kampot Cave Day Trip',
+    category: 'attraction',
     province: 'Kampot',
     image: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80',
     rating: 4.5,
@@ -50,6 +101,7 @@ export const attractions = [
   {
     id: 'kampot-river-cruise',
     name: 'Sunset River Cruise',
+    category: 'attraction',
     province: 'Kampot',
     image: 'https://images.unsplash.com/photo-1476908965434-f988d59d4abd?auto=format&fit=crop&w=1200&q=80',
     rating: 4.4,
@@ -59,9 +111,55 @@ export const attractions = [
     criteria: ['healing', 'partner', 'scenery', 'car'],
     priceRange: { min: 8, max: 25, label: '$8-$25 / person' },
   },
+
+  // ─── Preah Sihanouk (Kompong Som) ────────────────────────────────────────────
+
+  {
+    id: 'ps-beach-walk-free',
+    name: 'Otres Beach Walk',
+    category: 'attraction',
+    province: 'Preah Sihanouk',
+    image: 'https://www.gocambodia.tours/wp-content/uploads/2024/06/Otres-Beach-travel-during-cambodia-vacations-1.jpg',
+    rating: 4.4,
+    direction: 'Otres Beach — free public beach',
+    phone: '+855 10 220 543',
+    telegram: '@otres_relax',
+    mapUrl: 'https://share.google/k4kaC1vAMk0Rt0KwM',
+    criteria: ['healing', 'sea', 'walking', 'solo', 'partner', 'friends'],
+    priceRange: { min: 0, max: 0, label: 'Free' },
+  },
+  {
+    id: 'ps-otres-activities',
+    name: 'Otres Beach Activities',
+    category: 'attraction',
+    province: 'Preah Sihanouk',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaKzKG3heLm1_X8NLrZ6t1SHo5s3JBoM9cgA&s',
+    rating: 4.3,
+    direction: 'Otres Beach activity zone',
+    phone: '+855 10 220 543',
+    telegram: '@otres_activities',
+    mapUrl: 'https://www.tripadvisor.com/Attraction_Review-g325573-d1451692-Reviews-Otres_Beach-Sihanoukville_Sihanoukville_Province.html',
+    criteria: ['adventure', 'sea', 'friends', 'motorbike'],
+    priceRange: { min: 5, max: 15, label: '$5-$15 / person' },
+  },
+  {
+    id: 'ps-koh-rong-escape',
+    name: 'Koh Rong Island Escape',
+    category: 'attraction',
+    province: 'Preah Sihanouk',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLhQz3MwQSzRPi3rls2M-_JeMoDHP_i2N4lQ&s',
+    rating: 4.7,
+    direction: 'Serendipity pier — ferry to Koh Rong',
+    phone: '+855 87 909 990',
+    telegram: '@islandhop_ps',
+    mapUrl: 'https://www.visitkohrong.com/',
+    criteria: ['adventure', 'sea', 'friends', 'celebration', 'partner'],
+    priceRange: { min: 20, max: 48, label: '$20-$48 / person' },
+  },
   {
     id: 'ps-island-hopping',
     name: 'Island Hopping Tour',
+    category: 'attraction',
     province: 'Preah Sihanouk',
     image: 'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=1200&q=80',
     rating: 4.7,
@@ -74,6 +172,7 @@ export const attractions = [
   {
     id: 'ps-beach-relax',
     name: 'Otres Beach Relax Day',
+    category: 'attraction',
     province: 'Preah Sihanouk',
     image: 'https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?auto=format&fit=crop&w=1200&q=80',
     rating: 4.2,
@@ -83,9 +182,13 @@ export const attractions = [
     criteria: ['healing', 'sea', 'partner', 'walking'],
     priceRange: { min: 0, max: 12, label: '$0-$12 / person' },
   },
+
+  // ─── Mondulkiri ──────────────────────────────────────────────────────────────
+
   {
     id: 'mondul-elephant',
     name: 'Elephant Valley Experience',
+    category: 'attraction',
     province: 'Mondulkiri',
     image: 'https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=crop&w=1200&q=80',
     rating: 4.8,
@@ -98,6 +201,7 @@ export const attractions = [
   {
     id: 'mondul-waterfall',
     name: 'Bou Sra Waterfall Route',
+    category: 'attraction',
     province: 'Mondulkiri',
     image: 'https://images.unsplash.com/photo-1431794062232-2a99a5431c6c?auto=format&fit=crop&w=1200&q=80',
     rating: 4.5,
@@ -107,9 +211,13 @@ export const attractions = [
     criteria: ['scenery', 'mountain', 'adventure', 'friends'],
     priceRange: { min: 10, max: 28, label: '$10-$28 / person' },
   },
+
+  // ─── Battambang ──────────────────────────────────────────────────────────────
+
   {
     id: 'bat-bamboo-train',
     name: 'Battambang Bamboo Train',
+    category: 'attraction',
     province: 'Battambang',
     image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80',
     rating: 4.6,
@@ -119,9 +227,13 @@ export const attractions = [
     criteria: ['adventure', 'cultural', 'friends', 'motorbike'],
     priceRange: { min: 5, max: 14, label: '$5-$14 / person' },
   },
+
+  // ─── Kep ─────────────────────────────────────────────────────────────────────
+
   {
     id: 'kep-national-park',
     name: 'Kep National Park Trail',
+    category: 'attraction',
     province: 'Kep',
     image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80',
     rating: 4.4,
@@ -131,9 +243,13 @@ export const attractions = [
     criteria: ['scenery', 'walking', 'family', 'healing'],
     priceRange: { min: 2, max: 8, label: '$2-$8 / person' },
   },
+
+  // ─── Kandal ──────────────────────────────────────────────────────────────────
+
   {
     id: 'kandal-river-bike',
     name: 'Kandal River Bike Loop',
+    category: 'attraction',
     province: 'Kandal',
     image: 'https://images.unsplash.com/photo-1473625247510-8ceb1760943f?auto=format&fit=crop&w=1200&q=80',
     rating: 4.2,

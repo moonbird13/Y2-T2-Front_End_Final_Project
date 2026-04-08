@@ -25,7 +25,7 @@ function App() {
   const [showFavouriteTab, setShowFavouriteTab] = useState(false)
 
   const hasRecommendationResult = Boolean(quizAnswers)
-  const currentView = showFavouriteTab ? 'favourite' : showRecommendedPage ? 'recommendation' : 'hero'
+  const currentView = showFavouriteTab ? 'favourite' : showRecommendedPage ? 'recommendation' : 'home'
 
   const handleAuthenticate = (authUser) => {
     setUser(authUser)
@@ -130,14 +130,14 @@ function App() {
         ) : showRecommendedPage ? (
           <RecommendedPage answers={quizAnswers} onAddFavorite={handleAddFavorite} favorites={favorites} />
         ) : (
-          <section className="hero-grid">
-            <div className="hero-copy">
-              <h1>Make the most out of your trip even on a low budget</h1>
-              <p className="hero-copy__description">
-                Take a short quiz to get the best trip plan according to your budget and interest.
+          <section className="home-grid">
+            <div className="home-copy">
+              <h1>Travel smarter on any budget</h1>
+              <p className="home-copy__description">
+                Take a quick quiz to get a tailored trip plan based on your budget, interests, and travel style.
               </p>
 
-              <div className="hero-copy__actions">
+              <div className="home-copy__actions">
                 <StartQuizButton onClick={handleStartQuiz} />
                 {!user && (
                   <button type="button" className="button button--ghost" onClick={() => setAuthOpen(true)}>

@@ -1,7 +1,10 @@
 export const restaurants = [
+  // ─── Siem Reap ───────────────────────────────────────────────────────────────
+
   {
     id: 'sr-user-cheap-10',
     name: 'Siem Reap Budget Food Pick',
+    category: 'restaurant',
     province: 'Siem Reap',
     source: 'user-tier',
     tier: 'cheap',
@@ -12,11 +15,12 @@ export const restaurants = [
     phone: '+855 00 000 010',
     telegram: '@siemreap_budget_pick',
     criteria: ['food', 'localFood', 'friends', 'family'],
-    priceRange: { min: 10, max: 29, label: '$10 / person' },
+    priceRange: { min: 0, max: 29, label: '$10 / person' },
   },
   {
     id: 'sr-user-mid-30',
     name: 'Siem Reap Mid-Range Dining Pick',
+    category: 'restaurant',
     province: 'Siem Reap',
     source: 'user-tier',
     tier: 'mid',
@@ -32,6 +36,7 @@ export const restaurants = [
   {
     id: 'sr-user-high-150',
     name: 'Siem Reap Luxury Dining Pick',
+    category: 'restaurant',
     province: 'Siem Reap',
     source: 'user-tier',
     tier: 'high',
@@ -42,11 +47,12 @@ export const restaurants = [
     phone: '+855 00 000 150',
     telegram: '@siemreap_luxury_pick',
     criteria: ['food', 'fineDining', 'celebration', 'partner'],
-    priceRange: { min: 150, max: 150, label: '$150 / person' },
+    priceRange: { min: 150, max: 500, label: '$150+ / person' },
   },
   {
     id: 'sr-amok-kitchen',
     name: 'Amok Kitchen Siem Reap',
+    category: 'restaurant',
     province: 'Siem Reap',
     image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80',
     rating: 4.6,
@@ -59,6 +65,7 @@ export const restaurants = [
   {
     id: 'sr-royal-fork',
     name: 'Royal Fork Dining',
+    category: 'restaurant',
     province: 'Siem Reap',
     image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80',
     rating: 4.7,
@@ -71,6 +78,7 @@ export const restaurants = [
   {
     id: 'sr-market-bites',
     name: 'Old Market Bites',
+    category: 'restaurant',
     province: 'Siem Reap',
     image: 'https://images.unsplash.com/photo-1532634786-8f5043ed0f69?auto=format&fit=crop&w=1200&q=80',
     rating: 4.2,
@@ -80,9 +88,13 @@ export const restaurants = [
     criteria: ['food', 'localFood', 'walking', 'solo'],
     priceRange: { min: 4, max: 12, label: '$4-$12 / person' },
   },
+
+  // ─── Kampot ──────────────────────────────────────────────────────────────────
+
   {
     id: 'kampot-pepper-garden',
     name: 'Pepper Garden Dining',
+    category: 'restaurant',
     province: 'Kampot',
     image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1200&q=80',
     rating: 4.5,
@@ -95,6 +107,7 @@ export const restaurants = [
   {
     id: 'kampot-river-cafe',
     name: 'Riverbank Cafe',
+    category: 'restaurant',
     province: 'Kampot',
     image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1200&q=80',
     rating: 4.3,
@@ -104,9 +117,61 @@ export const restaurants = [
     criteria: ['food', 'cafeHopping', 'walking', 'friends'],
     priceRange: { min: 5, max: 15, label: '$5-$15 / person' },
   },
+
+  // ─── Preah Sihanouk (Kompong Som) ────────────────────────────────────────────
+
+  {
+    id: 'ps-user-cheap-10',
+    name: 'Kompong Som Budget Eats',
+    category: 'restaurant',
+    province: 'Preah Sihanouk',
+    source: 'user-tier',
+    tier: 'cheap',
+    image: 'https://lh3.googleusercontent.com/gps-cs-s/AHVAweoyOhQMeQsRwOsyzIcbvy_iaEM2uja6eTegy-RjTvr0wg1nFClH7lDWtAWHIyMbAp5_WUAkqKx0gVRe_Xg-zIqOOtFYqCfJBzWmZulZoWt4dGRtwxKwvsNlBinzt_ME7QWqT47-=s1360-w1360-h1020-rw',
+    rating: 4.2,
+    direction: 'Sihanoukville local dining area',
+    mapUrl: 'https://share.google/xmacVtzdu1BF3oPod',
+    phone: '+855 00 000 011',
+    telegram: '@ps_budget_eats',
+    criteria: ['food', 'localFood', 'friends', 'sea'],
+    priceRange: { min: 0, max: 29, label: '$10 / person' },
+  },
+  {
+    id: 'ps-user-mid-30',
+    name: 'Kompong Som Mid-Range Dining',
+    category: 'restaurant',
+    province: 'Preah Sihanouk',
+    source: 'user-tier',
+    tier: 'mid',
+    image: ': https://lh3.googleusercontent.com/gps-cs-s/AHVAwepsvLgGUjJFrH7D7PU-mgci6WuMmEckMfMupaf5qOu6vQP-Qwyr9-UM4RsK6IkJxs7lZ2JYJRuoNDMAnoCsAeaYzXrwIYjYGOHLHvZLFcIKp-PdRBywB_sQ5sGWp297Ci5f4mie=s1360-w1360-h1020-rw',
+    rating: 4.4,
+    direction: 'Sihanoukville mid-range district',
+    mapUrl: 'https://share.google/YXeXSCTpgnY9lNn76',
+    phone: '+855 00 000 031',
+    telegram: '@ps_mid_dining',
+    criteria: ['food', 'fineDining', 'partner', 'friends', 'sea'],
+    priceRange: { min: 30, max: 149, label: '$30 / person' },
+  },
+  {
+    id: 'ps-user-high-150',
+    name: 'Kompong Som Fine Dining',
+    category: 'restaurant',
+    province: 'Preah Sihanouk',
+    source: 'user-tier',
+    tier: 'high',
+    image: ' https://sevenpaintingsubud.com/wp-content/uploads/2025/07/fine-dining-1024x683.png',
+    rating: 4.7,
+    direction: 'JHL Collections — Angkasa Restaurant',
+    mapUrl: 'https://arjuna.jhlcollections.com/en/offers/detail/night-of-flavors-limitless-dinner-at-angkasa-restaurant',
+    phone: '+855 00 000 151',
+    telegram: '@ps_fine_dining',
+    criteria: ['food', 'fineDining', 'celebration', 'partner', 'sea'],
+    priceRange: { min: 150, max: 500, label: '$150+ / person' },
+  },
   {
     id: 'ps-ocean-fresh',
     name: 'Ocean Fresh Grill',
+    category: 'restaurant',
     province: 'Preah Sihanouk',
     image: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1200&q=80',
     rating: 4.3,
@@ -119,6 +184,7 @@ export const restaurants = [
   {
     id: 'ps-sunset-table',
     name: 'Sunset Table',
+    category: 'restaurant',
     province: 'Preah Sihanouk',
     image: 'https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=1200&q=80',
     rating: 4.6,
@@ -128,9 +194,13 @@ export const restaurants = [
     criteria: ['food', 'fineDining', 'partner', 'sea'],
     priceRange: { min: 26, max: 64, label: '$26-$64 / person' },
   },
+
+  // ─── Mondulkiri ──────────────────────────────────────────────────────────────
+
   {
     id: 'mondul-forest-bowl',
     name: 'Forest Bowl Kitchen',
+    category: 'restaurant',
     province: 'Mondulkiri',
     image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80',
     rating: 4.4,
@@ -140,9 +210,13 @@ export const restaurants = [
     criteria: ['food', 'mountain', 'healing', 'allergy'],
     priceRange: { min: 7, max: 19, label: '$7-$19 / person' },
   },
+
+  // ─── Battambang ──────────────────────────────────────────────────────────────
+
   {
     id: 'bat-khmer-table',
     name: 'Khmer Table Battambang',
+    category: 'restaurant',
     province: 'Battambang',
     image: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1200&q=80',
     rating: 4.5,
@@ -152,9 +226,13 @@ export const restaurants = [
     criteria: ['food', 'cultural', 'family', 'localFood'],
     priceRange: { min: 8, max: 22, label: '$8-$22 / person' },
   },
+
+  // ─── Kep ─────────────────────────────────────────────────────────────────────
+
   {
     id: 'kep-crab-master',
     name: 'Crab Master Kep',
+    category: 'restaurant',
     province: 'Kep',
     image: 'https://images.unsplash.com/photo-1559847844-d721426d6edc?auto=format&fit=crop&w=1200&q=80',
     rating: 4.4,
@@ -164,9 +242,13 @@ export const restaurants = [
     criteria: ['food', 'sea', 'family', 'localFood'],
     priceRange: { min: 12, max: 30, label: '$12-$30 / person' },
   },
+
+  // ─── Koh Kong ────────────────────────────────────────────────────────────────
+
   {
     id: 'kohkong-waterfront',
     name: 'Waterfront Noodle Hub',
+    category: 'restaurant',
     province: 'Koh Kong',
     image: 'https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=1200&q=80',
     rating: 4.1,
@@ -176,9 +258,13 @@ export const restaurants = [
     criteria: ['food', 'adventure', 'friends', 'motorbike'],
     priceRange: { min: 4, max: 14, label: '$4-$14 / person' },
   },
+
+  // ─── Kandal ──────────────────────────────────────────────────────────────────
+
   {
     id: 'kandal-skyline-dining',
     name: 'Skyline Dining Kandal',
+    category: 'restaurant',
     province: 'Kandal',
     image: 'https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?auto=format&fit=crop&w=1200&q=80',
     rating: 4.6,

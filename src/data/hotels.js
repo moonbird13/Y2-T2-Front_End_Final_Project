@@ -1,7 +1,10 @@
 export const hotels = [
+  // ─── Siem Reap ───────────────────────────────────────────────────────────────
+
   {
     id: 'sr-grand-heritage',
     name: 'Grand Heritage Angkor',
+    category: 'hotel',
     province: 'Siem Reap',
     image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=80',
     rating: 4.8,
@@ -14,6 +17,7 @@ export const hotels = [
   {
     id: 'sr-lotus-budget',
     name: 'Lotus Budget Stay',
+    category: 'hotel',
     province: 'Siem Reap',
     image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=80',
     rating: 4.3,
@@ -26,6 +30,7 @@ export const hotels = [
   {
     id: 'sr-river-comfort',
     name: 'River Comfort Inn',
+    category: 'hotel',
     province: 'Siem Reap',
     image: 'https://images.unsplash.com/photo-1521783593447-5702b9bfd267?auto=format&fit=crop&w=1200&q=80',
     rating: 4.4,
@@ -35,9 +40,13 @@ export const hotels = [
     criteria: ['accommodation', 'friends', 'motorbike', 'localFood'],
     priceRange: { min: 46, max: 95, label: '$46-$95 / night' },
   },
+
+  // ─── Kampot ──────────────────────────────────────────────────────────────────
+
   {
     id: 'kampot-riverside-green',
     name: 'Riverside Green Hotel',
+    category: 'hotel',
     province: 'Kampot',
     image: 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=1200&q=80',
     rating: 4.5,
@@ -50,6 +59,7 @@ export const hotels = [
   {
     id: 'kampot-pepper-lux',
     name: 'Pepper Valley Resort',
+    category: 'hotel',
     province: 'Kampot',
     image: 'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1200&q=80',
     rating: 4.7,
@@ -59,9 +69,13 @@ export const hotels = [
     criteria: ['accommodation', 'partner', 'fineDining', 'car'],
     priceRange: { min: 120, max: 240, label: '$120-$240 / night' },
   },
+
+  // ─── Preah Sihanouk (Kompong Som) ────────────────────────────────────────────
+
   {
     id: 'ps-beach-front',
     name: 'Blue Bay Beach Resort',
+    category: 'hotel',
     province: 'Preah Sihanouk',
     image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80',
     rating: 4.6,
@@ -74,6 +88,7 @@ export const hotels = [
   {
     id: 'ps-wave-hostel',
     name: 'Wave Point Hostel',
+    category: 'hotel',
     province: 'Preah Sihanouk',
     image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
     rating: 4.2,
@@ -83,9 +98,13 @@ export const hotels = [
     criteria: ['accommodation', 'solo', 'walking', 'sea'],
     priceRange: { min: 18, max: 42, label: '$18-$42 / night' },
   },
+
+  // ─── Mondulkiri ──────────────────────────────────────────────────────────────
+
   {
     id: 'mondul-highland-eco',
     name: 'Highland Eco Lodge',
+    category: 'hotel',
     province: 'Mondulkiri',
     image: 'https://images.unsplash.com/photo-1501117716987-c8e1ecb2101d?auto=format&fit=crop&w=1200&q=80',
     rating: 4.4,
@@ -95,9 +114,13 @@ export const hotels = [
     criteria: ['accommodation', 'mountain', 'adventure', 'scenery'],
     priceRange: { min: 52, max: 108, label: '$52-$108 / night' },
   },
+
+  // ─── Battambang ──────────────────────────────────────────────────────────────
+
   {
     id: 'bat-historic-house',
     name: 'Historic River House',
+    category: 'hotel',
     province: 'Battambang',
     image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1200&q=80',
     rating: 4.5,
@@ -107,9 +130,13 @@ export const hotels = [
     criteria: ['accommodation', 'cultural', 'family', 'walking'],
     priceRange: { min: 40, max: 96, label: '$40-$96 / night' },
   },
+
+  // ─── Kep ─────────────────────────────────────────────────────────────────────
+
   {
     id: 'kep-seaview-villas',
     name: 'Kep Seaview Villas',
+    category: 'hotel',
     province: 'Kep',
     image: 'https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?auto=format&fit=crop&w=1200&q=80',
     rating: 4.6,
@@ -119,9 +146,13 @@ export const hotels = [
     criteria: ['accommodation', 'sea', 'partner', 'healing'],
     priceRange: { min: 88, max: 190, label: '$88-$190 / night' },
   },
+
+  // ─── Koh Kong ────────────────────────────────────────────────────────────────
+
   {
     id: 'kohkong-mangrove-inn',
     name: 'Mangrove Stay Inn',
+    category: 'hotel',
     province: 'Koh Kong',
     image: 'https://images.unsplash.com/photo-1535827841776-24afc1e255ac?auto=format&fit=crop&w=1200&q=80',
     rating: 4.1,
@@ -131,9 +162,13 @@ export const hotels = [
     criteria: ['accommodation', 'sea', 'adventure', 'motorbike'],
     priceRange: { min: 30, max: 72, label: '$30-$72 / night' },
   },
+
+  // ─── Kandal ──────────────────────────────────────────────────────────────────
+
   {
     id: 'kandal-city-elite',
     name: 'City Elite Suites',
+    category: 'hotel',
     province: 'Kandal',
     image: 'https://images.unsplash.com/photo-1455587734955-081b22074882?auto=format&fit=crop&w=1200&q=80',
     rating: 4.5,
