@@ -179,6 +179,28 @@ const getPurposeBoost = (item, purposes) => {
   return Math.min(boost, 0.22)
 }
 
+const getPriorityBoost = (item, priorities, category) => {
+  if (category !== 'restaurant' || !priorities.includes('food')) {
+    return 0
+  }
+
+  let boost = 0
+
+  if (item.criteria.includes('food')) {
+    boost += 0.15
+  }
+
+  if (item.criteria.includes('fineDining')) {
+    boost += 0.1
+  }
+
+  if (item.source === 'user-tier' && item.tier === 'mid') {
+    boost += 0.08
+  }
+
+  return Math.min(boost, 0.25)
+}
+
 const getPriceBand = (item) => {
   const averagePrice = (item.priceRange.min + item.priceRange.max) / 2
 
@@ -219,6 +241,10 @@ const getPriceScore = (item, budgetLimit, preferPremium) => {
   const preferredBands = getPreferredBands(budgetLimit, preferPremium)
   const bandBonus = preferredBands.includes(getPriceBand(item)) ? 0.18 : 0
   return clamp01(closenessScore + bandBonus)
+}
+
+const isWithinBudgetRange = (item, budgetLimit) => {
+  return budgetLimit >= item.priceRange.min && budgetLimit <= item.priceRange.max
 }
 
 const formatRating = (value) => Number(value).toFixed(1)
@@ -316,41 +342,36 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
         ...item,
         matchScore: getMatchScore(item.criteria, userCriteria),
         purposeBoost: getPurposeBoost(item, purposes),
+        priorityBoost: getPriorityBoost(item, priorities, category),
         priceScore: getPriceScore(item, budgetLimit, prioritizedCategory.includes(category)),
       }))
       .map((item) => ({
         ...item,
-        finalScore: item.matchScore * 0.7 + item.priceScore * 0.2 + item.purposeBoost * 0.1,
+        finalScore: item.matchScore * 0.6 + item.priceScore * 0.2 + item.purposeBoost * 0.1 + item.priorityBoost * 0.1,
       }))
       .sort((a, b) => b.finalScore - a.finalScore || b.rating - a.rating)
   }
 
-  const pickTopThree = ({ provinceItems, allItems, budgetLimit, category }) => {
+  const pickTopThree = ({ provinceItems, budgetLimit, category }) => {
     const transportFilteredProvince = category === 'hotel' ? provinceItems : provinceItems.filter((item) => isWithinTransportWindow(item, selectedTransport))
-    const transportFilteredAll = category === 'hotel' ? allItems : allItems.filter((item) => isWithinTransportWindow(item, selectedTransport))
     const isFoodPriority = priorities.includes('food')
 
-    const sortedProvince = scoreAndSort(transportFilteredProvince, category, budgetLimit)
-    const sortedAll = scoreAndSort(transportFilteredAll, category, budgetLimit)
+    // Rule 1: budget range check first. Item appears only if budget fits its full range.
+    const budgetFilteredProvince = transportFilteredProvince.filter((item) => isWithinBudgetRange(item, budgetLimit))
 
-    const strictProvince = sortedProvince.filter((item) => item.matchScore >= 0.75 && item.priceRange.min <= budgetLimit)
-    const strictGlobal = sortedAll.filter((item) => item.matchScore >= 0.75 && item.priceRange.min <= budgetLimit)
-    const strictIgnoreBudget = sortedAll.filter((item) => item.matchScore >= 0.75)
+    const sortedProvince = scoreAndSort(budgetFilteredProvince, category, budgetLimit)
 
-    // If strict filtering yields fewer than three items, complete the list by best-fit options.
-    const softFill = sortedAll
-      .filter((item) => item.priceRange.min <= budgetLimit || item.priceRange.min <= budgetLimit * 1.15)
-      .slice(0, 6)
+    // Rule 2: criteria threshold back to 50%.
+    const strictProvince = sortedProvince.filter((item) => item.matchScore >= 0.5)
+    const softFill = sortedProvince.slice(0, 6)
 
     let userTierPriority = []
     if (category === 'restaurant' && isFoodPriority) {
       const preferredBands = getPreferredBands(budgetLimit, true)
       const bandRankMap = buildBandRankMap(preferredBands)
-      const restaurantCap = Math.max(budgetLimit * 1.2, budgetLimit + 5)
 
       userTierPriority = sortedProvince
         .filter((item) => item.source === 'user-tier')
-        .filter((item) => item.priceRange.min <= restaurantCap)
         .map((item) => ({
           ...item,
           bandRank: bandRankMap[item.tier] ?? 99,
@@ -363,8 +384,6 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
     const merged = dedupeById([
       ...userTierPriority,
       ...strictProvince,
-      ...strictGlobal,
-      ...(category === 'restaurant' ? [] : strictIgnoreBudget),
       ...softFill,
     ])
     return merged.slice(0, 3)
@@ -376,19 +395,16 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
 
   const filteredHotels = pickTopThree({
     provinceItems: hotelsForProvince,
-    allItems: hotels,
     budgetLimit: budgetPlan.hotel,
     category: 'hotel',
   })
   const filteredRestaurants = pickTopThree({
     provinceItems: restaurantsForProvince,
-    allItems: restaurants,
     budgetLimit: budgetPlan.restaurant,
     category: 'restaurant',
   })
   const filteredAttractions = pickTopThree({
     provinceItems: attractionsForProvince,
-    allItems: attractions,
     budgetLimit: budgetPlan.attraction,
     category: 'attraction',
   })
@@ -406,7 +422,7 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
         <RecommendationSection
           title="HOTEL RECOMMANDATION"
           items={filteredHotels}
-          emptyMessage="No hotels matched your criteria strongly enough."
+          emptyMessage="No hotels in this province matched your budget range and at least 50% of your criteria."
           transport={selectedTransport}
           category="hotel"
           onAddFavorite={onAddFavorite}
@@ -416,7 +432,7 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
         <RecommendationSection
           title="RESTAURANT RECOMMANDATION"
           items={filteredRestaurants}
-          emptyMessage="No restaurants matched your current criteria and budget."
+          emptyMessage="No restaurants in this province matched your budget range and at least 50% of your criteria."
           transport={selectedTransport}
           category="restaurant"
           onAddFavorite={onAddFavorite}
@@ -426,7 +442,7 @@ function RecommendedPage({ answers, onAddFavorite, favorites }) {
         <RecommendationSection
           title="ATTRACTION RECOMMANDATION"
           items={filteredAttractions}
-          emptyMessage="No attractions matched your current criteria and budget."
+          emptyMessage="No attractions in this province matched your budget range and at least 50% of your criteria."
           transport={selectedTransport}
           category="attraction"
           onAddFavorite={onAddFavorite}
