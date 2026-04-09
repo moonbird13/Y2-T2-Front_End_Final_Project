@@ -1,16 +1,20 @@
-# React + Vite
+# KOMRONG TRIP - Trip Recommendation Website 
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+KOMRONG TRIP is a trip recommendation website that takes input the user's need and interest of their planned trip so that the website can give recommendation of accommodation, food and activities for their trips.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Team Members
 
-## React Compiler
+- Chap Chanliya (Leaders)
+- Sereywath Rathanak
+- Sakal Munyreach
+- Porleak Vitou
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tool & Technologies 
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
++ Tools:
+  - Visual Studio Code (IDE)
+  - Github (Code Sharing) 
+  - Canva (Slide Presentation)
+  - Vercel (Deployment)
