@@ -4,7 +4,7 @@ KOMRONG TRIP is a trip recommendation website that takes input the user's need a
 
 ## Team Members
 
-- Chap Chanliya (Leaders)
+- Chap Chanliya (Leader)
 - Sereywath Rathanak
 - Sakal Munyreach
 - Porleak Vitou
