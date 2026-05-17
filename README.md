@@ -9,6 +9,27 @@ KOMRONG TRIP is a trip recommendation website that takes input the user's need a
 - Sakal Munyreach
 - Porleak Vitou
 
+## Features
+
+- Quiz-based trip planner
+- Personalized destination suggestions
+- Smart recommendation engine based on:
+  - travel party type
+  - budget
+  - preferred activities
+  - transportation style
+- Favorites tab for saved hotels, restaurants, and attractions
+- History tab to review previous trip recommendations
+- LocalStorage persistence for:
+  - user session
+  - favorites
+  - recommendation history
+- Responsive UI with:
+  - hero carousel
+  - sidebar navigation
+  - modal authentication
+- Clean component-based React architecture
+  
 ## Tool & Technologies 
 
 + Tools:
@@ -16,3 +37,8 @@ KOMRONG TRIP is a trip recommendation website that takes input the user's need a
   - Github (Code Sharing) 
   - Canva (Slide Presentation)
   - Vercel (Deployment)
+
+##Visit the Website: 
+
+Link: https://komrongtrip.vercel.app/
+
