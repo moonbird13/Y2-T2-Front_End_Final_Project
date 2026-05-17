@@ -38,7 +38,7 @@ KOMRONG TRIP is a trip recommendation website that takes input the user's need a
   - Canva (Slide Presentation)
   - Vercel (Deployment)
 
-##Visit the Website: 
+## Visit the Website: 
 
 Link: https://komrongtrip.vercel.app/
 
